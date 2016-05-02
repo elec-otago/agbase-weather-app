@@ -1,0 +1,136 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.WeatherDisplayFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- temperature -->
+            <TextView
+                android:id="@+id/display_weather_fragment_temp_output"
+                android:textColor="@color/primary_dark"
+                android:gravity="end"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:textSize="@dimen/weather_measurement_value_textSize_large"
+                android:layout_width="@dimen/display_weather_fragment_temp_width"
+                android:layout_height="wrap_content" />
+
+            <!-- precipitation status
+                -->
+            <TextView
+                android:id="@+id/display_weather_fragment_precipitation_output"
+                android:textStyle="bold"
+                android:textSize="@dimen/weather_measurement_label_textSize"
+                android:textColor="@color/primary_dark"
+                android:layout_marginTop="@dimen/weather_fragment_precipitation_output_marginTop"
+                android:layout_toRightOf="@id/display_weather_fragment_temp_output"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- date -->
+            <TextView
+                android:id="@+id/display_weather_fragment_date_output"
+                android:gravity="bottom"
+                android:textColor="@color/primary_dark"
+                android:layout_toRightOf="@id/display_weather_fragment_temp_output"
+                android:layout_marginTop="@dimen/weather_fragment_date_output_marginTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- time -->
+            <TextView
+                android:id="@+id/display_weather_fragment_time_output"
+                android:gravity="bottom"
+                android:textColor="@color/primary_dark"
+                android:layout_toRightOf="@id/display_weather_fragment_temp_output"
+                android:layout_below="@id/display_weather_fragment_date_output"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <!-- wind speed label-->
+            <TextView
+                android:id="@+id/display_weather_fragment_wind_label"
+                android:text="@string/display_weather_fragment_wind_label"
+                android:textSize="@dimen/weather_measurement_label_textSize"
+                android:textColor="@color/accent"
+                android:layout_below="@id/display_weather_fragment_temp_output"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- wind speed -->
+            <TextView
+                android:id="@+id/display_weather_fragment_wind_speed_output"
+                android:textSize="@dimen/weather_measurement_value_textSize"
+                android:textColor="@color/primary_dark"
+                android:layout_below="@id/display_weather_fragment_wind_label"
+                android:layout_marginLeft="@dimen/indent_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- wind direction label-->
+            <TextView
+                android:id="@+id/display_weather_fragment_wind_direction_label"
+                android:text="@string/display_weather_fragment_wind_direction_label"
+                android:textSize="@dimen/weather_measurement_label_textSize"
+                android:textColor="@color/accent"
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/display_weather_fragment_wind_speed_output"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- wind direction -->
+            <TextView
+                android:id="@+id/display_weather_fragment_wind_direction_output"
+                android:textSize="@dimen/weather_measurement_value_textSize"
+                android:textColor="@color/primary_dark"
+                android:layout_below="@id/display_weather_fragment_wind_direction_label"
+                android:layout_marginLeft="@dimen/indent_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- humidity label-->
+            <TextView
+                android:id="@+id/display_weather_fragment_humidity_label"
+                android:text="@string/display_weather_fragment_humidity_label"
+                android:textSize="@dimen/weather_measurement_label_textSize"
+                android:textColor="@color/accent"
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/display_weather_fragment_wind_direction_output"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- humidity -->
+            <TextView
+                android:id="@+id/display_weather_fragment_humidity_output"
+                android:textSize="@dimen/weather_measurement_value_textSize"
+                android:textColor="@color/primary_dark"
+                android:layout_below="@id/display_weather_fragment_humidity_label"
+                android:layout_marginLeft="@dimen/indent_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- air pressure label -->
+            <TextView
+                android:id="@+id/display_weather_fragment_air_pressure_label"
+                android:text="@string/display_weather_fragment_air_pressure_label"
+                android:textSize="@dimen/weather_measurement_label_textSize"
+                android:textColor="@color/accent"
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/display_weather_fragment_humidity_output"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- air pressure -->
+            <TextView
+                android:id="@+id/display_weather_fragment_air_pressure_output"
+                android:textSize="@dimen/weather_measurement_value_textSize"
+                android:textColor="@color/primary_dark"
+                android:layout_below="@id/display_weather_fragment_air_pressure_label"
+                android:layout_marginLeft="@dimen/indent_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </ScrollView>
+</FrameLayout>

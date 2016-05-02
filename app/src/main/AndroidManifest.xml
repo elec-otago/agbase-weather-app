@@ -1,0 +1,80 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="nz.ac.elec.agbase.weather_app"
+    android:sharedUserId="nz.ac.elec.agbase.account" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <application
+        android:name=".WeatherApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!-- weather report activity -->
+        <activity
+            android:name=".activities.WeatherReportActivity"
+            android:label="@string/weather_alert_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- view weather alerts activity -->
+        <activity android:name=".activities.ViewWeatherAlertsActivity"
+            android:label="@string/weather_alert_label"/>
+
+        <!-- view weather alert activity -->
+        <activity android:name=".activities.ViewWeatherAlertActivity"
+            android:label="@string/weather_alert_label"/>
+
+        <!-- edit weather alert activity -->
+        <activity android:name=".activities.EditWeatherAlertActivity"
+            android:label="@string/weather_alert_label"/>
+
+        <!-- create weather alert activity -->
+        <activity android:name=".activities.CreateWeatherAlertActivity"
+            android:label="@string/weather_alert_activity"/>
+
+        <!-- sync adapter -->
+        <service
+            android:name=".agbase_sync.SyncAdapterService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"/>
+        </service>
+
+        <!-- content provider for sync adapter -->
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".agbase_sync.StubContentProvider"
+            android:exported="false"
+            android:syncable="true"/>
+
+        <!-- content provider for shared preferences -->
+        <provider
+            android:name=".preferences.PreferenceContentProvider"
+            android:authorities="@string/prefs_content_authority"
+            android:exported="false"
+            android:syncable="true" />
+
+        <!-- Weather Alert service -->
+        <service android:name=".WeatherAlertService"/>
+    </application>
+
+</manifest>

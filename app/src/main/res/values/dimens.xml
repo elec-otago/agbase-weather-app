@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="display_weather_fragment_temp_width">180dp</dimen>
+    <dimen name="display_weather_fragment_temp_height">124dp</dimen>
+    <dimen name="weather_measurement_label_textSize">16sp</dimen>
+    <dimen name="weather_measurement_value_textSize">24sp</dimen>
+    <dimen name="weather_measurement_value_textSize_large">80sp</dimen>
+    <dimen name="weather_fragment_date_output_marginTop">52dp</dimen>
+    <dimen name="indent_margin">40dp</dimen>
+    <dimen name="activity_header_height">160dp</dimen>
+    <dimen name="spinner_item_textSize">40sp</dimen>
+
+    <dimen name="weather_fragment_precipitation_output_marginTop">24dp</dimen>
+    <dimen name="min_btn_width">88dp</dimen>
+    <dimen name="btn_height">36dp</dimen>
+    <dimen name="listview_item_height">72dp</dimen>
+</resources>

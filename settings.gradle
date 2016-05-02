@@ -1,0 +1,5 @@
+include ':app', ':android_agbase_api', ':android_agbase_login', ':android_agbase_db'
+
+project(':android_agbase_api').projectDir = new File('../android_agbase/android_agbase_api')
+project(':android_agbase_login').projectDir = new File('../android_agbase/android_agbase_login')
+project(':android_agbase_db').projectDir = new File('../android_agbase/android_agbase_db')

@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    tools:context=".activities.CreateWeatherAlertActivity">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    <ScrollView
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- weather station label-->
+            <TextView
+                android:id="@+id/create_alert_form_weatherstation_label"
+                android:text="@string/weather_station_label"
+                android:textColor="@color/accent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- Weather Station Spinner -->
+            <Spinner
+                android:id="@+id/create_alert_form_activity_weather_station_dropdown"
+                android:layout_below="@id/create_alert_form_weatherstation_label"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                android:id="@+id/create_alert_form_weather_station_divider"
+                android:layout_below="@id/create_alert_form_activity_weather_station_dropdown"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@color/divider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <!-- name/description label-->
+            <TextView
+                android:id="@+id/create_alert_form_details_label"
+                android:text="Name/Description"
+                android:textColor="@color/accent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@id/create_alert_form_weather_station_divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- alert name container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_temp_name_container"
+                android:layout_below="@id/create_alert_form_details_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_temp_name_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="Alert name"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_alert_name_desc"
+                    android:text="@string/alert_name_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_temp_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <!-- alert description container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_temp_desc_container"
+                android:layout_below="@id/create_alert_form_temp_name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_temp_desc_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="Alert description"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_alert_desc_desc"
+                    android:text="@string/alert_description_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_temp_desc_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/create_alert_form_details_divider"
+                android:layout_below="@id/create_alert_form_temp_desc_container"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@color/divider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+
+            <!-- temperature -->
+            <TextView
+                android:id="@+id/create_alert_form_temp_label"
+                android:text="@string/temperature_title"
+                android:textColor="@color/accent"
+                android:layout_below="@id/create_alert_form_details_divider"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- temperature use condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_temp_select_container"
+                android:layout_below="@id/create_alert_form_temp_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <CheckBox
+                    android:id="@+id/create_alert_form_temp_select_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:textSize="32sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"/>
+                <TextView
+                    android:id="@+id/create_alert_form_temp_select_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/use_condition_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_temp_select_desc"
+                    android:text="@string/use_condition_desc"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_temp_select_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- temperature condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_temp_condition_container"
+                android:layout_below="@id/create_alert_form_temp_select_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_temp_condition_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/condition_type_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_temp_condition_desc"
+                    android:text="@string/above_rb_value"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_temp_condition_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- temperature value container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_temp_value_container"
+                android:layout_below="@id/create_alert_form_temp_condition_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_temp_value_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/temperature_value_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_temp_value_desc"
+                    android:text="@string/alert_value_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_temp_value_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:id="@+id/create_alert_form_temperature_divider"
+                android:layout_below="@id/create_alert_form_temp_value_container"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@color/divider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <!-- humidity -->
+            <TextView
+                android:id="@+id/create_alert_form_humidity_label"
+                android:text="@string/humidity_title"
+                android:textColor="@color/accent"
+                android:layout_below="@id/create_alert_form_temperature_divider"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- humidity use condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_humidity_select_container"
+                android:layout_below="@id/create_alert_form_humidity_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <CheckBox
+                    android:id="@+id/create_alert_form_humidity_select_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:textSize="32sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"/>
+                <TextView
+                    android:id="@+id/create_alert_form_humidity_select_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/use_condition_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_humidity_select_desc"
+                    android:text="@string/use_condition_desc"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_humidity_select_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- humidity condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_humidity_condition_container"
+                android:layout_below="@id/create_alert_form_humidity_select_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_humidity_condition_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/condition_type_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_humidity_condition_desc"
+                    android:text="@string/above_rb_value"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_humidity_condition_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- humidity value container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_humidity_value_container"
+                android:layout_below="@id/create_alert_form_humidity_condition_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_humidity_value_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/humidity_value_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_humidity_value_desc"
+                    android:text="@string/alert_value_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_humidity_value_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:id="@+id/create_alert_form_humidity_divider"
+                android:layout_below="@id/create_alert_form_humidity_value_container"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@color/divider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <!-- wind speed -->
+            <TextView
+                android:id="@+id/create_alert_form_wind_speed_label"
+                android:text="@string/wind_speed_title"
+                android:textColor="@color/accent"
+                android:layout_below="@id/create_alert_form_humidity_divider"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- wind speed use condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_wind_speed_select_container"
+                android:layout_below="@id/create_alert_form_wind_speed_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <CheckBox
+                    android:id="@+id/create_alert_form_wind_speed_select_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:textSize="32sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"/>
+                <TextView
+                    android:id="@+id/create_alert_form_wind_speed_select_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/use_condition_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_wind_speed_select_desc"
+                    android:text="@string/use_condition_desc"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_wind_speed_select_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- wind speed condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_wind_speed_condition_container"
+                android:layout_below="@id/create_alert_form_wind_speed_select_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_wind_speed_condition_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/condition_type_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_wind_speed_condition_desc"
+                    android:text="@string/above_rb_value"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_wind_speed_condition_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- wind speed value container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_wind_speed_value_container"
+                android:layout_below="@id/create_alert_form_wind_speed_condition_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_wind_speed_value_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/wind_speed_value_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_wind_speed_value_desc"
+                    android:text="@string/alert_value_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_wind_speed_value_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:id="@+id/create_alert_form_wind_speed_divider"
+                android:layout_below="@id/create_alert_form_wind_speed_value_container"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@color/divider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <!-- air pressure -->
+            <TextView
+                android:id="@+id/create_alert_form_air_pressure_label"
+                android:text="@string/air_pressure_title"
+                android:textColor="@color/accent"
+                android:layout_below="@id/create_alert_form_wind_speed_divider"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- air pressure use container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_air_pressure_select_container"
+                android:layout_below="@id/create_alert_form_air_pressure_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <CheckBox
+                    android:id="@+id/create_alert_form_air_pressure_select_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:textSize="32sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"/>
+                <TextView
+                    android:id="@+id/create_alert_form_air_pressure_select_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/use_condition_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_air_pressure_select_desc"
+                    android:text="@string/use_condition_desc"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_air_pressure_select_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- air pressure condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_air_pressure_condition_container"
+                android:layout_below="@id/create_alert_form_air_pressure_select_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_air_pressure_condition_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/condition_type_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_air_pressure_condition_desc"
+                    android:text="@string/above_rb_value"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_air_pressure_condition_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- air pressure value container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_air_pressure_value_container"
+                android:layout_below="@id/create_alert_form_air_pressure_condition_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_air_pressure_value_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/air_pressure_value_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_air_pressure_value_desc"
+                    android:text="@string/alert_value_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_air_pressure_value_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:id="@+id/create_alert_form_air_pressure_divider"
+                android:layout_below="@id/create_alert_form_air_pressure_value_container"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@color/divider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <!-- rain -->
+            <TextView
+                android:id="@+id/create_alert_form_rain_label"
+                android:text="@string/rain_title"
+                android:textColor="@color/accent"
+                android:layout_below="@id/create_alert_form_air_pressure_divider"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- use rain container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_rain_select_container"
+                android:layout_below="@id/create_alert_form_rain_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <CheckBox
+                    android:id="@+id/create_alert_form_rain_select_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:textSize="32sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"/>
+                <TextView
+                    android:id="@+id/create_alert_form_rain_select_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/use_condition_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_rain_select_desc"
+                    android:text="@string/use_condition_desc"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_rain_select_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- rain condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_rain_condition_container"
+                android:layout_below="@id/create_alert_form_rain_select_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_rain_condition_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/condition_type_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_rain_condition_desc"
+                    android:text="raining"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_rain_condition_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- rain value container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_rain_value_container"
+                android:layout_below="@id/create_alert_form_rain_condition_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_rain_value_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/precipitation_intensity_value_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_rain_value_desc"
+                    android:text="@string/alert_value_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_rain_value_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:id="@+id/create_alert_form_rain_divider"
+                android:layout_below="@id/create_alert_form_rain_value_container"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@color/divider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <!-- snow -->
+            <TextView
+                android:id="@+id/create_alert_form_snow_label"
+                android:text="@string/snow_title"
+                android:textColor="@color/accent"
+                android:layout_below="@id/create_alert_form_rain_divider"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!-- use snow container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_snow_select_container"
+                android:layout_below="@id/create_alert_form_snow_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <CheckBox
+                    android:id="@+id/create_alert_form_snow_select_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:textSize="32sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"/>
+                <TextView
+                    android:id="@+id/create_alert_form_snow_select_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/use_condition_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_snow_select_desc"
+                    android:text="@string/use_condition_desc"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_snow_select_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- snow condition container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_snow_condition_container"
+                android:layout_below="@id/create_alert_form_snow_select_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_snow_condition_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/condition_type_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_snow_condition_desc"
+                    android:text="snowing"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_snow_condition_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- snow value container -->
+            <RelativeLayout
+                android:id="@+id/create_alert_form_snow_value_container"
+                android:layout_below="@id/create_alert_form_snow_condition_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/create_alert_form_snow_value_title"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:text="@string/precipitation_intensity_value_title"
+                    android:textColor="@color/primary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/create_alert_form_snow_value_desc"
+                    android:text="@string/alert_value_default"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_marginRight="28dp"
+                    android:layout_below="@id/create_alert_form_snow_value_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <!-- todo figure out how to style these buttons -->
+            <!-- submit button -->
+            <Button
+                android:id="@+id/alert_form_submit_btn"
+                android:text="@string/btn_ok"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_height"
+                android:textColor="@color/primary"
+                android:minWidth="@dimen/min_btn_width"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/create_alert_form_snow_value_container"/>
+            <!-- cancel button -->
+            <Button
+                android:id="@+id/alert_form_cancel_btn"
+                android:text="@string/btn_cancel"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_height"
+                android:textColor="@color/primary"
+                android:minWidth="@dimen/min_btn_width"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_toLeftOf="@id/alert_form_submit_btn"
+                android:layout_below="@id/create_alert_form_snow_value_container"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

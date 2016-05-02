@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/WeatherApp.iml" filepath="$PROJECT_DIR$/WeatherApp.iml" />
+      <module fileurl="file://$USER_HOME$/android_agbase/android_agbase_api/android_agbase_api.iml" filepath="$USER_HOME$/android_agbase/android_agbase_api/android_agbase_api.iml" />
+      <module fileurl="file://$USER_HOME$/android_agbase/android_agbase_db/android_agbase_db.iml" filepath="$USER_HOME$/android_agbase/android_agbase_db/android_agbase_db.iml" />
+      <module fileurl="file://$USER_HOME$/android_agbase/android_agbase_login/android_agbase_login.iml" filepath="$USER_HOME$/android_agbase/android_agbase_login/android_agbase_login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>
