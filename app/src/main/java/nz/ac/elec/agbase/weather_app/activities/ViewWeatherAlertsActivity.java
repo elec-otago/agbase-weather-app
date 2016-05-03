@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import android.util.Log;
@@ -17,10 +16,11 @@ import android.view.MenuItem;
 import java.util.List;
 
 import nz.ac.elec.agbase.android_agbase_login.AccountWorker;
+import nz.ac.elec.agbase.weather_app.WeatherAppActivity;
 import nz.ac.elec.agbase.weather_app.AgBaseAccountWorker;
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.StartActivityHandler;
-import nz.ac.elec.agbase.weather_app.WeatherAlertService;
+import nz.ac.elec.agbase.weather_app.services.WeatherAlertService;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.fragments.AlertsDisplayFragment;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
@@ -29,7 +29,7 @@ import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 /**
  * Created by tm on 28/04/16.
  */
-public class ViewWeatherAlertsActivity extends AppCompatActivity
+public class ViewWeatherAlertsActivity extends WeatherAppActivity
             implements AlertsDisplayFragment.IAlertsDisplayFragment {
 
     private final String TAG = "ViewAlertsActivity";

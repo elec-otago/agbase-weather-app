@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,9 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +29,19 @@ import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorType;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.Weather;
 import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabaseManager;
 import nz.ac.elec.agbase.android_agbase_login.AccountWorker;
+import nz.ac.elec.agbase.weather_app.WeatherAppActivity;
 import nz.ac.elec.agbase.weather_app.AgBaseAccountWorker;
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.StartActivityHandler;
-import nz.ac.elec.agbase.weather_app.WeatherAlertService;
 import nz.ac.elec.agbase.weather_app.agbase_sync.SyncAdapterHandler;
 import nz.ac.elec.agbase.weather_app.agbase_sync.WeatherSyncAdapter;
-import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.fragments.WeatherDisplayFragment;
 import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
 
 /**
  * Created by tm on 18/04/16.
  */
-public class WeatherReportActivity extends AppCompatActivity implements WeatherDisplayFragment.OnFragmentInteractionListener {
+public class WeatherReportActivity extends WeatherAppActivity implements WeatherDisplayFragment.OnFragmentInteractionListener {
 
     private final String TAG = "WeatherReportActivity";
     private final String TOOLBAR_TITLE = "Weather";
@@ -108,10 +103,7 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
     protected void onResume() {
         super.onResume();
 
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(WeatherSyncAdapter.SYNC_FINISHED);
-        intentFilter.addAction(WeatherSyncAdapter.WEATHER_UPDATE);
-        registerReceiver(broadcastReceiver, intentFilter);
+        initBroadcastReceiver();
 
         if (PreferenceHandler.getInstance().getPerformInitPreference(mAccount)) {
 
@@ -128,10 +120,6 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
             setupWeatherRequests();
         }
 
-        if(AlertDatabaseManager.getInstance().getAlertCount() > 0) {
-            Intent weatherServiceIntent = new Intent(this, WeatherAlertService.class);
-            startService(weatherServiceIntent);
-        }
     }
 
     @Override
@@ -145,6 +133,15 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
     }
 
     // region initialization
+    private void initBroadcastReceiver() {
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(WeatherSyncAdapter.SYNC_FINISHED);
+        intentFilter.addAction(WeatherSyncAdapter.WEATHER_UPDATE);
+        intentFilter.addAction(WeatherSyncAdapter.STATION_UPDATE);
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
+
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(TOOLBAR_TITLE);
@@ -210,6 +207,9 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
     // endregion
 
     private void setupWeatherStationList() {
+        if(weatherStationList == null) {
+            return;
+        }
         AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
         weatherStationList.clear();
         // add sensors
@@ -292,13 +292,18 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
 
             String action = intent.getAction();
 
-            if (WeatherSyncAdapter.SYNC_FINISHED.equals(action)) {
+            if(WeatherSyncAdapter.SYNC_FINISHED.equals(action)) {
                 onInitSyncFinished(intent);
             }
-            if (WeatherSyncAdapter.WEATHER_UPDATE.equals(action)) {
+            else if(WeatherSyncAdapter.WEATHER_UPDATE.equals(action)) {
                 Weather weather = intent.getExtras().getParcelable(WeatherSyncAdapter.ARGS_GET_WEATHER);
 
                 weatherDisplay.displayWeatherMeasurement(weather);
+            }
+            else if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
+                //todo keep a reference to the current weather station
+                setupWeatherStationList();
+                //todo select weather station from ref
             }
         }
     };
@@ -310,7 +315,6 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
         public void run() {
             if (mSensor != null) {
                 SyncAdapterHandler syncAdapterHandler = new SyncAdapterHandler(getString(R.string.content_authority));
-                Log.d(TAG, "GET WEATHER!!!!!!!!!!!");
                 syncAdapterHandler.getLastWeatherMeasurement(getApplicationContext(), mAccount, mSensor.guid);
             }
             getWeatherHandler.postDelayed(this, (60 * 1000));

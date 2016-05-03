@@ -41,6 +41,18 @@ public class SyncAdapterHandler {
         ContentResolver.setSyncAutomatically(account, mResolverAuthority, true);
     }
 
+    public void performUpdate(Context context, Account account) {
+        Bundle b = new Bundle();
+        AccountManager manager = AccountManager.get(context);
+
+        b.putBoolean(context.getString(R.string.ARGS_DB_UPDATE), true);
+        b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+
+        ContentResolver.requestSync(account, mResolverAuthority, b);
+        ContentResolver.setSyncAutomatically(account, mResolverAuthority, true);
+    }
+
     public void getLastWeatherMeasurement(Context context, Account account, String guid) {
 
         Bundle b = new Bundle();

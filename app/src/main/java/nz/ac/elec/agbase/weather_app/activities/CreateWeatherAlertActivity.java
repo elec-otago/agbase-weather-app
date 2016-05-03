@@ -1,8 +1,10 @@
 package nz.ac.elec.agbase.weather_app.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +23,11 @@ import nz.ac.elec.agbase.android_agbase_api.agbase_models.Sensor;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorCategory;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorType;
 import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabaseManager;
+import nz.ac.elec.agbase.weather_app.WeatherAppActivity;
 import nz.ac.elec.agbase.weather_app.AlertSummaryGenerator;
 import nz.ac.elec.agbase.weather_app.R;
-import nz.ac.elec.agbase.weather_app.WeatherAlertService;
+import nz.ac.elec.agbase.weather_app.agbase_sync.WeatherSyncAdapter;
+import nz.ac.elec.agbase.weather_app.services.WeatherAlertService;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AirPressureConditionDialog;
 import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AirPressureValueDialog;
@@ -45,7 +49,7 @@ import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 /**
  * Created by tm on 23/03/16.
  */
-public class CreateWeatherAlertActivity extends AppCompatActivity implements AlertNameDialog.IAlertNameDialog,
+public class CreateWeatherAlertActivity extends WeatherAppActivity implements AlertNameDialog.IAlertNameDialog,
         AlertDescriptionDialog.IAlertDescriptionDialog, TempValueDialog.ITempValueDialog,
         TempConditionDialog.ITempConditionDialog, HumidityValueDialog.IHumidityValueDialog,
         HumidityConditionDialog.IHumidityConditionDialog, WindSpeedConditionDialog.IWindSpeedConditionDialog,
@@ -156,11 +160,16 @@ public class CreateWeatherAlertActivity extends AppCompatActivity implements Ale
         super.onResume();
 
         getWeatherStationList();
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(WeatherSyncAdapter.STATION_UPDATE);
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 
     @Override
@@ -692,10 +701,28 @@ public class CreateWeatherAlertActivity extends AppCompatActivity implements Ale
 
         return alert;
     }
+
     public void startWeatherAlertService() {
         Intent weatherServiceIntent = new Intent(this, WeatherAlertService.class);
         startService(weatherServiceIntent);
     }
+
+    // region broadcast receiver
+    private IntentFilter intentFilter;
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+
+            if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
+                //todo keep a reference to the current weather station
+                getWeatherStationList();
+                //todo select weather station from ref
+            }
+        }
+    };
+    // endregion
 
     // region dialog callback functions
     @Override

@@ -48,11 +48,13 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String SYNC_FINISHED        = "nz.ac.elec.agbase.weather_app.intent.sync_finished";
     public static final String WEATHER_UPDATE       = "nz.ac.elec.agbase.weather_app.intent.weather_update";
     public static final String WEATHER_ALERT        = "nz.ac.elec.agbase.weather_app.intent.weather_alert";
+    public static final String STATION_UPDATE       = "nz.ac.elec.agbase.weather_app.intent.station_update";
+
     public static final String ARGS_WEATHER_ALERT   = "nz.ac.elec.agbase.weather_app.intent.ARGS_WEATHER_ALERT";
     public static final String ARGS_GET_WEATHER     = "nz.ac.elec.agbase.weather_app.intent.ARGS_GET_WEATHER";
     public static final String ARGS_CHECK_ALERT     = "nz.ac.elec.agbase.weather_app.intent.ARGS_CHECK_ALERT";
 
-    public static final String ARGS_END_ALERT       = "nz.ac.elec.agbase.weather_app.intent.ARGS_END_ALERT";
+    public static final String END_ALERT = "nz.ac.elec.agbase.weather_app.intent.END_ALERT";
     public static final String ARGS_END_ALERT_NAME  = "nz.ac.elec.agbase.weather_app.intent.ARGS_END_ALERT_NAME";
 
     ContentResolver mContentResolver;
@@ -84,6 +86,13 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             else if(getPendingSyncs(accountManager, account) == 0) {
                 didComplete = initLocalDb(accountManager, account);
             }
+        }
+        // check if update sync
+        else if(extras.getBoolean(context.getString(R.string.ARGS_DB_UPDATE), false)) {
+            if(updateWeatherStations(accountManager, account)) {
+                sendUpdate();
+            }
+            didComplete = true;
         }
         // perform request
         else if(extras.getBoolean(ARGS_GET_WEATHER, false)) {
@@ -119,6 +128,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             syncResult.stats.numIoExceptions++;
         }
     }
+
     // region token setup
     /**
      * Retrieves the API auth token from the account.  If the token has expired,
@@ -254,6 +264,16 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     /**
+     * Sends a broadcast to indicate that new data has been received
+     * from the API.
+     */
+    private void sendUpdate() {
+        Intent i = new Intent();
+        i.setAction(STATION_UPDATE);
+        getContext().sendBroadcast(i);
+    }
+
+    /**
      * Sends a broadcast to indicate a weather alert with
      * an id equal to the id parameter was found
      */
@@ -270,7 +290,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
     private void sendWeatherAlertEnd(ActiveAlert activeAlert) {
         WeatherAlert alert = AlertDatabaseManager.getInstance().readWeatherAlert(activeAlert.getWeatherAlertId());
         Intent i = new Intent();
-        i.setAction(ARGS_END_ALERT);
+        i.setAction(END_ALERT);
         i.putExtra(ARGS_END_ALERT_NAME, alert.getName());
 
         getContext().sendBroadcast(i);
@@ -288,6 +308,12 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             finalizeInitDb(account);
         }
         return result;
+    }
+
+    private boolean updateWeatherStations(AccountManager accountManager, Account account) {
+        // TODO: we need to empty the relevant tables first
+        getWeatherStationTypes();
+        return getWeatherStationSensors();
     }
 
     private boolean getWeatherStationTypes() {

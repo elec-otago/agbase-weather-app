@@ -74,7 +74,9 @@
             android:syncable="true" />
 
         <!-- Weather Alert service -->
-        <service android:name=".WeatherAlertService" android:process=":remote"/>
+        <service android:name=".services.WeatherAlertService" android:process=":remote"/>
+        <!-- Update service -->
+        <service android:name=".services.UpdateService"/>
     </application>
 
 </manifest>

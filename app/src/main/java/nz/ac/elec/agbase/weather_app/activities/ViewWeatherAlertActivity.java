@@ -1,28 +1,23 @@
 package nz.ac.elec.agbase.weather_app.activities;
 
-import android.accounts.Account;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import nz.ac.elec.agbase.android_agbase_login.AccountWorker;
-import nz.ac.elec.agbase.weather_app.AgBaseAccountWorker;
+import nz.ac.elec.agbase.weather_app.WeatherAppActivity;
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.StartActivityHandler;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.create_alert_dialogs.ConfirmAlertDialog;
 import nz.ac.elec.agbase.weather_app.fragments.AlertDisplayFragment;
-import nz.ac.elec.agbase.weather_app.fragments.AlertsDisplayFragment;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 
 /**
  * Created by tm on 28/04/16.
  */
-public class ViewWeatherAlertActivity extends AppCompatActivity
+public class ViewWeatherAlertActivity extends WeatherAppActivity
             implements AlertDisplayFragment.IAlertDisplayFragment,
             ConfirmAlertDialog.IConfirmAlertDialog {
 

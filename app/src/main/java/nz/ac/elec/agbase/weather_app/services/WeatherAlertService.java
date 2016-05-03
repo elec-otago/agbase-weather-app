@@ -1,7 +1,6 @@
-package nz.ac.elec.agbase.weather_app;
+package nz.ac.elec.agbase.weather_app.services;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -9,38 +8,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.RingtoneManager;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
-import android.util.Log;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
-import nz.ac.elec.agbase.android_agbase_api.AgBaseApi;
-import nz.ac.elec.agbase.android_agbase_api.agbase_models.Weather;
-import nz.ac.elec.agbase.android_agbase_api.api_models.ApiAuth;
-import nz.ac.elec.agbase.android_agbase_api.api_models.ApiWeather;
-import nz.ac.elec.agbase.android_agbase_login.AccountWorker;
+import nz.ac.elec.agbase.weather_app.AgBaseAccountWorker;
+import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.agbase_sync.SyncAdapterHandler;
 import nz.ac.elec.agbase.weather_app.agbase_sync.WeatherSyncAdapter;
-import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabase;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.models.ActiveAlert;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by tm on 20/04/16.
@@ -72,7 +57,7 @@ public class WeatherAlertService extends Service {
         // init broadcast receiver
         intentFilter = new IntentFilter();
         intentFilter.addAction(WeatherSyncAdapter.WEATHER_ALERT);
-        intentFilter.addAction(WeatherSyncAdapter.ARGS_END_ALERT);
+        intentFilter.addAction(WeatherSyncAdapter.END_ALERT);
         registerReceiver(broadcastReceiver, intentFilter);
         // init timer
         weatherAlertHandler = new Handler();
@@ -137,7 +122,7 @@ public class WeatherAlertService extends Service {
                     onWeatherAlertReceive(alert);
                 }
             }
-            else if(WeatherSyncAdapter.ARGS_END_ALERT.equals(action)) {
+            else if(WeatherSyncAdapter.END_ALERT.equals(action)) {
                 String name = intent.getStringExtra(WeatherSyncAdapter.ARGS_END_ALERT_NAME) + " has finished";
                 createNotification(name);
             }
