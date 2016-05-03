@@ -14,6 +14,7 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorCategory;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorType;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.Weather;
 import nz.ac.elec.agbase.android_agbase_api.api_models.ApiAuth;
+import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabase;
 import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabaseManager;
 import nz.ac.elec.agbase.android_agbase_login.AccountWorker;
 import nz.ac.elec.agbase.weather_app.R;
@@ -84,12 +86,12 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             // check that there all other syncs have completed
             else if(getPendingSyncs(accountManager, account) == 0) {
-                didComplete = initLocalDb(accountManager, account);
+                didComplete = initLocalDb( account);
             }
         }
         // check if update sync
         else if(extras.getBoolean(context.getString(R.string.ARGS_DB_UPDATE), false)) {
-            if(updateWeatherStations(accountManager, account)) {
+            if(updateWeatherStations()) {
                 sendUpdate();
             }
             didComplete = true;
@@ -297,7 +299,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    private boolean initLocalDb(AccountManager accountManager, Account account) {
+    private boolean initLocalDb(Account account) {
         // get Weather Station category and types
         boolean result = getWeatherStationTypes();
         // get all sensors that have a sensor type that belongs to the weather station category
@@ -310,10 +312,99 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
         return result;
     }
 
-    private boolean updateWeatherStations(AccountManager accountManager, Account account) {
-        // TODO: we need to empty the relevant tables first
-        getWeatherStationTypes();
-        return getWeatherStationSensors();
+    private boolean updateWeatherStations() {
+        updateWeatherStationTypes();
+        return updateWeatherStationSensors();
+    }
+
+    private boolean updateWeatherStationTypes() {
+        AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
+
+        // get all weather station types from db as oldTypes
+        int weatherStationCategoryId = db.readSensorCategoryWithName("Weather Station").id;
+        List<SensorType> oldTypes = db.readSensorTypesWithCategory(weatherStationCategoryId);
+
+        // get all weather station types from API as newTypes
+        SensorCategoryRequest request = new SensorCategoryRequest();
+        Bundle extras = new Bundle();
+        extras.putString(SensorCategoryRequest.ARGS_INCLUDE, "sensorTypes");
+        extras.putString(SensorCategoryRequest.ARGS_NAME, "Weather Station");
+
+        if(request.performRequest(extras)) {
+
+            // insert newTypes
+            List<SensorType> newTypes = Arrays.asList(request.getRequestData()[0].sensorTypes);
+            db.createSensorTypes(newTypes);
+
+            // delete all weather station types that are in oldTypes, but not newTypes
+            for(SensorType type : oldTypes) {
+                if(newTypes.indexOf(type) == -1) {
+                    db.deleteSensor(type.id);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean updateWeatherStationSensors() {
+        AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
+        String sensorTypes = "";    // query parameters
+        // get weather station sensor category
+        SensorCategory weatherStationCategory = db.readSensorCategoryWithName("Weather Station");
+        if(weatherStationCategory == null) {
+            return false;
+        }
+        // get sensor types that belong to weather station category
+        List<SensorType> weatherStationTypes = db.readSensorTypesWithCategory(weatherStationCategory.id);
+        if(weatherStationTypes == null) {
+            return false;
+        }
+
+        // get all weather station sensors from db as oldSensors
+        List<Sensor> oldSensors = new ArrayList<>();
+        for(SensorType type : weatherStationTypes) {
+            // add sensors to oldSensors
+            oldSensors.addAll(db.readSensorsWithType(type.id));
+
+            if(sensorTypes.length() > 0) {
+                sensorTypes = sensorTypes + ",";
+            }
+            // add sensor type id to query string
+            sensorTypes = sensorTypes + String.valueOf(type.id);
+        }
+
+        // get all weather station sensors from API as newSensors
+        Bundle extras = new Bundle();
+        extras.putString(SensorRequest.ARGS_TYPE, sensorTypes);
+        SensorRequest request = new SensorRequest();
+
+        if(request.performRequest(extras)) {
+
+            // insert newSensors
+            List<Sensor> newSensors = Arrays.asList(request.getRequestData());
+            db.createSensors(newSensors);
+
+            //delete all weather station sensors and alerts that are in oldSensors, but not newSensors
+            for(Sensor sensor : oldSensors) {
+                if(newSensors.indexOf(sensor) == -1) {
+                    db.deleteSensor(sensor.id);
+
+                    // get weather alerts for the deleted sensor
+                    List<WeatherAlert> sensorAlerts = AlertDatabaseManager.getInstance().readWeatherAlertsWithSensor(sensor.guid);
+
+                    // delete all weather alerts for the deleted sensor
+                    AlertDatabaseManager.getInstance().deleteWeatherAlertsWithSensor(sensor.guid);
+
+                    // delete all active alerts for the deleted sensor
+                    for(WeatherAlert weatherAlert : sensorAlerts) {
+                        AlertDatabaseManager.getInstance().deleteActiveAlertWithWeatherAlert(weatherAlert.getId());
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     private boolean getWeatherStationTypes() {

@@ -195,6 +195,7 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
                     getWeatherHandler.removeCallbacks(getWeatherRunnable);
                 }
                 // start timer with immediate runnable execution
+                weatherDisplay.clear();
                 getWeatherHandler.post(getWeatherRunnable);
             }
 
@@ -301,9 +302,15 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
                 weatherDisplay.displayWeatherMeasurement(weather);
             }
             else if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
-                //todo keep a reference to the current weather station
+                // get the selected weather station
+                Sensor selectedItem = (Sensor)weatherStationSpinner.getSelectedItem();
+                // update weather station list
                 setupWeatherStationList();
-                //todo select weather station from ref
+                // restore the selected item if possible
+                int selectedItemIndex = weatherStationList.indexOf(selectedItem);
+                if(selectedItemIndex != -1) {
+                    weatherStationSpinner.setSelection(selectedItemIndex);
+                }
             }
         }
     };

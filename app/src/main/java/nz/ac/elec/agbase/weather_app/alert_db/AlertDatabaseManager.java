@@ -105,6 +105,32 @@ public class AlertDatabaseManager {
         return weatherAlerts;
     }
 
+    public List<WeatherAlert> readWeatherAlertsWithSensor(String sensorGuid) {
+        List<WeatherAlert> weatherAlerts = new ArrayList<>();
+
+        try {
+            SQLiteDatabase db = open();
+
+            Cursor cursor = db.query(AlertDatabase.AlertsTable.TABLE_NAME, getWeatherAlertFields(),
+                    AlertDatabase.AlertsTable.COL_WEATHER_STATION + "=?", new String[]{sensorGuid},
+                    null, null, null, null);
+
+            if(cursor.getCount() > 0) {
+                cursor.moveToFirst();
+
+                while(!cursor.isAfterLast()) {
+                    WeatherAlert weatherAlert = createWeatherAlertFromCursor(cursor);
+                    weatherAlerts.add(weatherAlert);
+                    cursor.moveToNext();
+                }
+            }
+            cursor.close();
+        }
+        catch(SQLException e) { e.printStackTrace(); }
+        finally { close(); }
+        return weatherAlerts;
+    }
+
     public WeatherAlert readWeatherAlert(int weatherAlertId) {
         WeatherAlert weatherAlert = null;
 
@@ -165,6 +191,21 @@ public class AlertDatabaseManager {
         catch(SQLException e) { e.printStackTrace(); }
         finally { close(); }
         return ret;
+    }
+
+    public void deleteWeatherAlertsWithSensor(String sensorGuid) {
+
+        try {
+            SQLiteDatabase db = open();
+            db.beginTransaction();
+
+            db.delete(AlertDatabase.AlertsTable.TABLE_NAME, AlertDatabase.AlertsTable.COL_WEATHER_STATION + "=?",
+                    new String[]{sensorGuid});
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        catch(SQLException e) { e.printStackTrace(); }
+        finally { close(); }
     }
 
     /**
@@ -278,6 +319,21 @@ public class AlertDatabaseManager {
         finally { close(); }
         return ret;
 
+    }
+
+    public void deleteActiveAlertWithWeatherAlert(int weatherAlertId) {
+        try {
+            SQLiteDatabase db = open();
+            db.beginTransaction();
+
+            db.delete(AlertDatabase.ActiveAlertsTable.TABLE_NAME, AlertDatabase.ActiveAlertsTable.COL_ALERT_ID + "=?",
+                    new String[]{String.valueOf(weatherAlertId)});
+
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        catch(SQLException e) { e.printStackTrace(); }
+        finally { close(); }
     }
     // endregion
 

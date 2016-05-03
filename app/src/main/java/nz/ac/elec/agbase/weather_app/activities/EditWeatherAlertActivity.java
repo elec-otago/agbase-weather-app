@@ -845,9 +845,15 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Aler
             String action = intent.getAction();
 
             if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
-                //todo keep a reference to the current weather station
+                // get the selected weather station
+                Sensor selectedItem = (Sensor)weatherStationSpinner.getSelectedItem();
+                // update weather station list
                 getWeatherStationList();
-                //todo select weather station from ref
+                // restore selected item if possible
+                int selectedItemIndex = weatherStationList.indexOf(selectedItem);
+                if(selectedItemIndex != -1) {
+                    weatherStationSpinner.setSelection(selectedItemIndex);
+                }
             }
         }
     };

@@ -53,9 +53,23 @@ public class WeatherDisplayFragment extends Fragment {
         }
     }
 
+    /**
+     * Clears the weather measurement display
+     */
+    public void clear() {
+
+        tempOutput.setText("");
+        windDirOutput.setText("");
+        windSpeedOutput.setText("");
+        humidityOutput.setText("");
+        airPressureOutput.setText("");
+        precipitationOutput.setText("");
+        dateOutput.setText("");
+        timeOutput.setText("");
+    }
+
     public void displayWeatherMeasurement(Weather weather) {
         // display temperature
-        tempOutput.setText("");
         if(weather.airTempAvg != null) {
             String tempStr = String.valueOf((int) Math.round(weather.airTempAvg));
             tempOutput.setText(tempStr + "\u00B0c");
@@ -80,25 +94,21 @@ public class WeatherDisplayFragment extends Fragment {
         timeOutput.setText(timeStr);
 
         // display wind speed
-        windSpeedOutput.setText("");
         if(weather.windSpeedAvg != null) {
             windSpeedOutput.setText(String.valueOf(weather.windSpeedAvg) + "m/s");
         }
 
         // display wind direction
-        windDirOutput.setText("");
         if(weather.windDirectionAvg != null) {
             windDirOutput.setText(convertWindDirection(weather.windDirectionAvg));
         }
 
         // display humidity
-        humidityOutput.setText("");
         if(weather.relHumidityAvg != null) {
             humidityOutput.setText(String.valueOf(weather.relHumidityAvg) + "%");
         }
 
         // display air pressure
-        airPressureOutput.setText("");
         if(weather.relAirPressureAvg != null) {
             airPressureOutput.setText(String.valueOf(weather.relAirPressureAvg) + "hPa");
         }
