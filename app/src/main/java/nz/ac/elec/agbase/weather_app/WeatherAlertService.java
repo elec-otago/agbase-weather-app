@@ -72,6 +72,7 @@ public class WeatherAlertService extends Service {
         // init broadcast receiver
         intentFilter = new IntentFilter();
         intentFilter.addAction(WeatherSyncAdapter.WEATHER_ALERT);
+        intentFilter.addAction(WeatherSyncAdapter.ARGS_END_ALERT);
         registerReceiver(broadcastReceiver, intentFilter);
         // init timer
         weatherAlertHandler = new Handler();

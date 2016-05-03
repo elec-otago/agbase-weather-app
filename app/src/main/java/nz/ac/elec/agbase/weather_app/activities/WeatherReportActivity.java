@@ -39,6 +39,7 @@ import nz.ac.elec.agbase.weather_app.StartActivityHandler;
 import nz.ac.elec.agbase.weather_app.WeatherAlertService;
 import nz.ac.elec.agbase.weather_app.agbase_sync.SyncAdapterHandler;
 import nz.ac.elec.agbase.weather_app.agbase_sync.WeatherSyncAdapter;
+import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.fragments.WeatherDisplayFragment;
 import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
 
@@ -71,13 +72,6 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
 
     private ProgressDialog mProgressDialog;
     private Account mAccount;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Intent weatherServiceIntent = new Intent(this, WeatherAlertService.class);
-        startService(weatherServiceIntent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +126,11 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
             }
             setupWeatherStationList();
             setupWeatherRequests();
+        }
+
+        if(AlertDatabaseManager.getInstance().getAlertCount() > 0) {
+            Intent weatherServiceIntent = new Intent(this, WeatherAlertService.class);
+            startService(weatherServiceIntent);
         }
     }
 
@@ -311,6 +310,7 @@ public class WeatherReportActivity extends AppCompatActivity implements WeatherD
         public void run() {
             if (mSensor != null) {
                 SyncAdapterHandler syncAdapterHandler = new SyncAdapterHandler(getString(R.string.content_authority));
+                Log.d(TAG, "GET WEATHER!!!!!!!!!!!");
                 syncAdapterHandler.getLastWeatherMeasurement(getApplicationContext(), mAccount, mSensor.guid);
             }
             getWeatherHandler.postDelayed(this, (60 * 1000));

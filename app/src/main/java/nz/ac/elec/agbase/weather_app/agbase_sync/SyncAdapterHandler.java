@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.agbase_sync.snyc_adapter_requests.WeatherRequest;

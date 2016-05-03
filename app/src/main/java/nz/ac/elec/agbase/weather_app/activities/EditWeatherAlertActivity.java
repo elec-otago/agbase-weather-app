@@ -13,13 +13,18 @@ import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.Sensor;
+import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorCategory;
+import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorType;
+import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabaseManager;
 import nz.ac.elec.agbase.weather_app.AlertSummaryGenerator;
 import nz.ac.elec.agbase.weather_app.R;
+import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabase;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AirPressureConditionDialog;
 import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AirPressureValueDialog;
@@ -41,7 +46,13 @@ import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 /**
  * Created by tm on 3/05/16.
  */
-public class EditWeatherAlertActivity extends AppCompatActivity {
+public class EditWeatherAlertActivity extends AppCompatActivity implements AlertNameDialog.IAlertNameDialog,
+        AlertDescriptionDialog.IAlertDescriptionDialog, TempValueDialog.ITempValueDialog,
+        TempConditionDialog.ITempConditionDialog, HumidityValueDialog.IHumidityValueDialog,
+        HumidityConditionDialog.IHumidityConditionDialog, WindSpeedConditionDialog.IWindSpeedConditionDialog,
+        WindSpeedValueDialog.IWindSpeedValueDialog, AirPressureConditionDialog.IAirPressureConditionDialog,
+        AirPressureValueDialog.IAirPressureValueDialog, RainConditionDialog.IRainConditionDialog,
+        RainValueDialog.IRainValueDialog, SnowConditionDialog.ISnowConditionDialog, SnowValueDialog.ISnowValueDialog {
 
     private final String TAG =  "EditWeatherAlert";
 
@@ -153,6 +164,7 @@ public class EditWeatherAlertActivity extends AppCompatActivity {
             finish();
         }
         else {
+            getWeatherStationList();
             displayAlertDetails();
         }
     }
@@ -397,7 +409,7 @@ public class EditWeatherAlertActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo uodate weather measurement
+                updateWeatherAlert();
             }
         });
 
@@ -412,7 +424,7 @@ public class EditWeatherAlertActivity extends AppCompatActivity {
 
     private void initWeatherStationSpinner() {
         weatherStationSpinner = (Spinner) findViewById(R.id.create_alert_form_activity_weather_station_dropdown);
-        weatherStationList = new ArrayList<>();
+        weatherStationList = new ArrayList<Sensor>();
         weatherStationArrayAdapter = new ArrayAdapter(this, R.layout.alert_spinner_item, R.id.alert_spinner_item_textview, weatherStationList);
         weatherStationSpinner.setAdapter(weatherStationArrayAdapter);
     }
@@ -513,6 +525,20 @@ public class EditWeatherAlertActivity extends AppCompatActivity {
 
     // endregion
 
+    private void getWeatherStationList() {
+        AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
+        weatherStationList.clear();
+        // add sensors
+        SensorCategory weatherStation = db.readSensorCategoryWithName("Weather Station");
+        List<SensorType> sensorTypes = db.readSensorTypesWithCategory(weatherStation.id);
+
+        for(SensorType sensorType : sensorTypes) {
+            List<Sensor> sensors = db.readSensorsWithType(sensorType.id);
+            weatherStationList.addAll(sensors);
+        }
+        weatherStationArrayAdapter.notifyDataSetChanged();
+    }
+
     private void displayAlertDetails() {
         setAlertNameDisplay();
         setAlertDescriptionDisplay();
@@ -522,6 +548,7 @@ public class EditWeatherAlertActivity extends AppCompatActivity {
         setAirPressureDisplay();
         setRainDisplay();
         setSnowDisplay();
+        setWeatherStation();
     }
 
     private void setAlertNameDisplay() {
@@ -651,14 +678,226 @@ public class EditWeatherAlertActivity extends AppCompatActivity {
     }
 
     private void setWeatherStation() {
-        //todo
+        Sensor sensor = AgBaseDatabaseManager.getInstance()
+                .readSensorWithGuid(mWeatherAlert.getDeviceGuid());
+
+        if(sensor != null) {
+            int position = weatherStationList.indexOf(sensor);
+            weatherStationSpinner.setSelection(position);
+        }
     }
 
     private void updateWeatherAlert() {
-        //todo
+        int id = mWeatherAlert.getId();
+        mWeatherAlert = buildWeatherAlert();
+        if(mWeatherAlert != null) {
+            mWeatherAlert.setId(id);
+            AlertDatabaseManager.getInstance().updateWeatherAlert(mWeatherAlert);
+            finish();
+        }
     }
     private WeatherAlert buildWeatherAlert() {
-        //todo
-        return null;
+        WeatherAlert alert = new WeatherAlert();
+        int alertConditionCount = 0;
+
+        if(tempCb.isChecked()) {
+            alertConditionCount++;
+            alert.setCheckTemp(true);
+
+            // get condition
+            String tempCondition = tempConditionOutput.getText().toString();
+            if(tempCondition.equals(RB_ABOVE_BELOW[0])) {
+                alert.setCheckTempCondition(WeatherAlert.CheckCondition.ABOVE);
+            }
+            else {
+                alert.setCheckTempCondition(WeatherAlert.CheckCondition.BELOW);
+            }
+            // get value
+            double tempValue = 0;
+            try { tempValue = Double.parseDouble(tempValueOutput.getText().toString()); }
+            catch(NumberFormatException e) { e.printStackTrace(); }
+            finally { alert.setTempValue(tempValue); }
+        }
+
+        if(humidityCb.isChecked()) {
+            alertConditionCount++;
+            alert.setCheckHumidity(true);
+
+            // get condition
+            String humidityCondition = humidityConditionOutput.getText().toString();
+            if(humidityCondition.equals(RB_ABOVE_BELOW[0])) {
+                alert.setCheckHumidityCondition(WeatherAlert.CheckCondition.ABOVE);
+            }
+            else {
+                alert.setCheckHumidityCondition(WeatherAlert.CheckCondition.BELOW);
+            }
+            // get value
+            double humidityValue = 0;
+            try { humidityValue = Double.parseDouble(humidityValueOutput.getText().toString()); }
+            catch(NumberFormatException e) { e.printStackTrace(); }
+            finally { alert.setHumidityValue(humidityValue); }
+
+        }
+
+        if(windSpeedCb.isChecked()) {
+            alertConditionCount++;
+            alert.setCheckWindSpeed(true);
+
+            // get condition
+            String windSpeedCondition = windSpeedConditionOutput.getText().toString();
+            if(windSpeedCondition.equals(RB_ABOVE_BELOW[0])) {
+                alert.setCheckWindSpeedCondition(WeatherAlert.CheckCondition.ABOVE);
+            }
+            else {
+                alert.setCheckWindSpeedCondition(WeatherAlert.CheckCondition.BELOW);
+            }
+            // get value
+            double windSpeedValue = 0;
+            try { windSpeedValue = Double.parseDouble(windSpeedValueOutput.getText().toString()); }
+            catch(NumberFormatException e) { e.printStackTrace(); }
+            finally { alert.setWindSpeedValue(windSpeedValue); }
+        }
+
+        if(airPressureCb.isChecked()) {
+            alertConditionCount++;
+            alert.setCheckAirPressure(true);
+
+            // get condition
+            String airPressureCondition = airPressureConditionOutput.getText().toString();
+            if(airPressureCondition.equals(RB_ABOVE_BELOW[0])) {
+                alert.setCheckAirPressureCondition(WeatherAlert.CheckCondition.ABOVE);
+            }
+            else {
+                alert.setCheckAirPressureCondition(WeatherAlert.CheckCondition.BELOW);
+            }
+            // get value
+            double airPressureValue = 0;
+            try { airPressureValue = Double.parseDouble(airPressureValueOutput.getText().toString()); }
+            catch(NumberFormatException e) { e.printStackTrace(); }
+            finally { alert.setAirPressureValue(airPressureValue); }
+        }
+
+        if(rainCb.isChecked()) {
+            alertConditionCount++;
+            alert.setCheckRain(true);
+
+            // get condition
+            String rainCondition = rainConditionOutput.getText().toString();
+            if(rainCondition.equals(RB_RAIN_CONDITION[0])) {
+                alert.setCheckRainCondition(WeatherAlert.CheckCondition.INTENSITY);
+
+                // get value
+                double rainValue = 0;
+                try{ rainValue = Double.parseDouble(rainValueOutput.getText().toString()); }
+                catch(NumberFormatException e) { e.printStackTrace(); }
+                finally { alert.setRainIntensityValue(rainValue); }
+            }
+            else {
+                alert.setCheckRainCondition(WeatherAlert.CheckCondition.IS_TRUE);
+            }
+        }
+
+        if(snowCb.isChecked()) {
+            alertConditionCount++;
+            alert.setCheckSnow(true);
+
+            // get condition
+            String snowCondition = snowConditionOutput.getText().toString();
+            if(snowCondition.equals(RB_SNOW_CONDITION[0])) {
+                alert.setCheckSnowCondition(WeatherAlert.CheckCondition.INTENSITY);
+
+                // get value
+                double snowValue = 0;
+                try { snowValue = Double.parseDouble(snowValueOutput.getText().toString()); }
+                catch(NumberFormatException e) { e.printStackTrace(); }
+                finally { alert.setSnowIntensityValue(snowValue); }
+            }
+            else {
+                alert.setCheckSnowCondition(WeatherAlert.CheckCondition.IS_TRUE);
+            }
+        }
+
+        if(alertConditionCount == 0) {
+            Toast.makeText(this, FAIL_NO_CONDITION_MSG, Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        alert.setName(nameOutput.getText().toString());
+        alert.setDescription(descriptionOutput.getText().toString());
+        String deviceGuid = weatherStationList.get(weatherStationSpinner.getSelectedItemPosition()).guid;
+        alert.setDeviceGuid(deviceGuid);
+
+        return alert;
     }
+    // region dialog callback functions
+    @Override
+    public void getName(String name) {
+        nameOutput.setText(name);
+    }
+
+    @Override
+    public void getDescription(String description) {
+        descriptionOutput.setText(description);
+    }
+
+    @Override
+    public void getTempValue(double tempValue) {
+        tempValueOutput.setText(String.valueOf(tempValue));
+    }
+
+    @Override
+    public void getTempCondition(String condition) {
+        tempConditionOutput.setText(condition);
+    }
+
+    @Override
+    public void getHumidityValue(double humidityValue) {
+        humidityValueOutput.setText(String.valueOf(humidityValue));
+    }
+
+    @Override
+    public void getHumidityCondition(String condition) {
+        humidityConditionOutput.setText(condition);
+    }
+
+    @Override
+    public void getWindSpeedCondition(String condition) {
+        windSpeedConditionOutput.setText(condition);
+    }
+
+    @Override
+    public void getWindSpeedValue(double windSpeedValue) {
+        windSpeedValueOutput.setText(String.valueOf(windSpeedValue));
+    }
+
+    @Override
+    public void getAirPressureCondition(String condition) {
+        airPressureConditionOutput.setText(condition);
+    }
+
+    @Override
+    public void getAirPressureValue(double airPressureValue) {
+        airPressureValueOutput.setText(String.valueOf(airPressureValue));
+    }
+
+    @Override
+    public void getRainCondition(String condition) {
+        rainConditionOutput.setText(condition);
+    }
+
+    @Override
+    public void getRainValue(double rainValue) {
+        rainValueOutput.setText(String.valueOf(rainValue));
+    }
+
+    @Override
+    public void getSnowCondition(String condition) {
+        snowConditionOutput.setText(condition);
+    }
+
+    @Override
+    public void getSnowValue(double snowValue) {
+        snowValueOutput.setText(String.valueOf(snowValue));
+    }
+    // endregion
 }

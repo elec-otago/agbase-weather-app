@@ -46,14 +46,6 @@ public class ViewWeatherAlertsActivity extends AppCompatActivity
 
     private Account mAccount;
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Intent weatherServiceIntent = new Intent(this, WeatherAlertService.class);
-        startService(weatherServiceIntent);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +77,11 @@ public class ViewWeatherAlertsActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         getContent();
+
+        if(AlertDatabaseManager.getInstance().getAlertCount() > 0) {
+            Intent weatherServiceIntent = new Intent(this, WeatherAlertService.class);
+            startService(weatherServiceIntent);
+        }
     }
 
     @Override

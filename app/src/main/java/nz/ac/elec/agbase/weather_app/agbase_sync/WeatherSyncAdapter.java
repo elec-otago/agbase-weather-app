@@ -98,6 +98,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                     sendWeather(weathers[0]);
                 }
             }
+            didComplete = true;
         }
         else if(extras.getBoolean(ARGS_CHECK_ALERT, false)) {
             int weatherAlertId = extras.getInt(ARGS_WEATHER_ALERT, -1);
@@ -459,6 +460,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 return true;
             }
+
             // if weather alert is active, check if it enough time has passed to
             // allow it to be deleted.
             ActiveAlert activeAlert = db.readActiveAlertForWeatherAlert(weatherAlertId);
