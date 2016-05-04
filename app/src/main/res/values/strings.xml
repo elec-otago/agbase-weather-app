@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Weather App</string>
+    <string name="app_name">AgBase Weather Alerts</string>
     <string name="btn_ok">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_create_alert">Create Alert</string>
@@ -9,7 +9,7 @@
     <string name="snow_title">Snow</string>
     <string name="humidity_title">Humidity</string>
     <string name="airpressure_title">Air pressure</string>
-    <string name="weather_alert_label">Create Weather Alert</string>
+    <string name="weather_alert_label">AgBase Weather Alerts</string>
     <string name="display_weather_activity_weather_station_label">Weather Station</string>
     <string name="temp_output_placeholder">15\u00B0c</string>
     <string name="date_output_placeholder">September 25</string>
