@@ -51,5 +51,6 @@
     <string name="description_label">Description</string>
     <string name="btn_delete">Delete</string>
     <string name="condition_label">Conditions</string>
+    <string name="menu_weather_alert_logout">Logout</string>
 
 </resources>

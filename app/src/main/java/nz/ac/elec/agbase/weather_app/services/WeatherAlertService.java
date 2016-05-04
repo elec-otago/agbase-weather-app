@@ -99,12 +99,15 @@ public class WeatherAlertService extends Service {
             AgBaseAccountWorker worker = new AgBaseAccountWorker(this, getString(R.string.account_type));
             Account account = worker.getLastAccount();
 
-            for(WeatherAlert alert : weatherAlertList) {
-                if(alert != null) {
-                    syncAdapterHandler.checkWeatherAlert(this, account, alert.getId());
+            if(account != null) {
+
+                for (WeatherAlert alert : weatherAlertList) {
+                    if (alert != null) {
+                        syncAdapterHandler.checkWeatherAlert(this, account, alert.getId());
+                    }
                 }
+                weatherAlertHandler.postDelayed(requestRunnable, 120 * 1000);
             }
-            weatherAlertHandler.postDelayed(requestRunnable, 120 * 1000);
         }
     }
 
@@ -165,7 +168,7 @@ public class WeatherAlertService extends Service {
 
         Notification notification  =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_warning_white_18dp)
+                        .setSmallIcon(R.mipmap.app_icon)
                         .setContentIntent(pendingIntent)
                         .setContentTitle("Weather Alert!")
                         .setContentText(title)

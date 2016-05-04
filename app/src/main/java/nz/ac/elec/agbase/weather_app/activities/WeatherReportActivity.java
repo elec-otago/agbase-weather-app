@@ -268,6 +268,12 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
                     break;
                 case R.id.weather_alert_view_item:
                     startViewWeatherActivity();
+                    break;
+                case R.id.weather_alert_logout_item:
+                    PreferenceHandler.getInstance().setAccountLoggedIn(false);
+                    PreferenceHandler.getInstance().setLastLoginAccount(null, -1);
+                    StartActivityHandler.startLoginActivity(WeatherReportActivity.this);
+                    finish();
                 default:
                     Log.d(TAG, "not found");
                     break;

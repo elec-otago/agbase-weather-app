@@ -55,10 +55,16 @@ public class ViewWeatherAlertActivity extends WeatherAppActivity
         }
         else {
             mWeatherAlert = AlertDatabaseManager.getInstance().readWeatherAlert(weatherAlertId);
-            if(mWeatherAlert.getName() != null) {
-                mAlertName.setText(mWeatherAlert.getName());
+
+            if(mWeatherAlert!= null) {
+                if (mWeatherAlert.getName() != null) {
+                    mAlertName.setText(mWeatherAlert.getName());
+                }
+                alertDisplayFragment.setWeatherAlert(mWeatherAlert);
             }
-            alertDisplayFragment.setWeatherAlert(mWeatherAlert);
+            else {
+                finish();
+            }
         }
     }
 

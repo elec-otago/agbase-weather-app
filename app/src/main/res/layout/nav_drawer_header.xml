@@ -5,7 +5,7 @@
     android:layout_height="180dp"
     android:background="@color/primary_dark">
     <TextView
-        android:text="Weather"
+        android:text="Menu"
         android:textSize="24sp"
         android:textColor="@color/icons"
         android:layout_marginRight="16dp"

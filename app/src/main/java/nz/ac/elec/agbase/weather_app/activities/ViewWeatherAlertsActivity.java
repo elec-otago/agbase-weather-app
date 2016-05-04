@@ -20,6 +20,7 @@ import nz.ac.elec.agbase.weather_app.WeatherAppActivity;
 import nz.ac.elec.agbase.weather_app.AgBaseAccountWorker;
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.StartActivityHandler;
+import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
 import nz.ac.elec.agbase.weather_app.services.WeatherAlertService;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.fragments.AlertsDisplayFragment;
@@ -147,6 +148,11 @@ public class ViewWeatherAlertsActivity extends WeatherAppActivity
                 case R.id.weather_alert_create_item:
                     StartActivityHandler.startCreateWeatherAlertActivity(ViewWeatherAlertsActivity.this, mAccount, null);
                     break;
+                case R.id.weather_alert_logout_item:
+                    PreferenceHandler.getInstance().setAccountLoggedIn(false);
+                    PreferenceHandler.getInstance().setLastLoginAccount(null, -1);
+                    StartActivityHandler.startLoginActivity(ViewWeatherAlertsActivity.this);
+                    finish();
                 default:
                     Log.d(TAG, "not found");
                     break;

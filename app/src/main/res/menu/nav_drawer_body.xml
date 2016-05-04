@@ -7,16 +7,25 @@
             android:background="?attr/selectableItemBackground"
             android:icon="@mipmap/ic_wb_sunny_black_18dp"
             android:title="@string/menu_weather_report"/>
-        <item
-            android:id="@+id/weather_alert_create_item"
-            android:background="?attr/selectableItemBackground"
-            android:icon="@mipmap/ic_wb_cloudy_black_18dp"
-            android:title="@string/menu_weather_alert_create"/>
 
         <item
             android:id="@+id/weather_alert_view_item"
             android:background="?attr/selectableItemBackground"
             android:icon="@mipmap/ic_flash_on_black_18dp"
             android:title="@string/menu_weather_alert_view"/>
+
+        <item
+            android:id="@+id/weather_alert_create_item"
+            android:background="?attr/selectableItemBackground"
+            android:icon="@mipmap/ic_wb_cloudy_black_18dp"
+            android:title="@string/menu_weather_alert_create"/>
     </group>
+    <group>
+        <item
+            android:id="@+id/weather_alert_logout_item"
+            android:background="?attr/selectableItemBackground"
+            android:icon="@mipmap/ic_logout_white_18dp"
+            android:title="@string/menu_weather_alert_logout"/>
+    </group>
+
 </menu>
