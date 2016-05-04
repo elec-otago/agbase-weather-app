@@ -3,6 +3,7 @@ package nz.ac.elec.agbase.weather_app.services;
 import android.accounts.Account;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +22,8 @@ import java.util.TimeZone;
 
 import nz.ac.elec.agbase.weather_app.AgBaseAccountWorker;
 import nz.ac.elec.agbase.weather_app.R;
+import nz.ac.elec.agbase.weather_app.activities.EditWeatherAlertActivity;
+import nz.ac.elec.agbase.weather_app.activities.ViewWeatherAlertActivity;
 import nz.ac.elec.agbase.weather_app.agbase_sync.SyncAdapterHandler;
 import nz.ac.elec.agbase.weather_app.agbase_sync.WeatherSyncAdapter;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
@@ -57,7 +60,6 @@ public class WeatherAlertService extends Service {
         // init broadcast receiver
         intentFilter = new IntentFilter();
         intentFilter.addAction(WeatherSyncAdapter.WEATHER_ALERT);
-        intentFilter.addAction(WeatherSyncAdapter.END_ALERT);
         registerReceiver(broadcastReceiver, intentFilter);
         // init timer
         weatherAlertHandler = new Handler();
@@ -122,10 +124,6 @@ public class WeatherAlertService extends Service {
                     onWeatherAlertReceive(alert);
                 }
             }
-            else if(WeatherSyncAdapter.END_ALERT.equals(action)) {
-                String name = intent.getStringExtra(WeatherSyncAdapter.ARGS_END_ALERT_NAME) + " has finished";
-                createNotification(name);
-            }
         }
     };
 
@@ -150,7 +148,7 @@ public class WeatherAlertService extends Service {
             activeAlert.setAlertLast(timestamp);
 
             db.createActiveAlert(activeAlert);
-            createNotification(alert.getName());
+            createNotification(alert.getName(), alert.getId());
         }
         // if alert is in active alert table, update the last timestamp
         else {
@@ -159,10 +157,16 @@ public class WeatherAlertService extends Service {
         }
     }
 
-    private void createNotification(String title) {
+    private void createNotification(String title, int weatherAlertId) {
+
+        Intent intent = new Intent(this, ViewWeatherAlertActivity.class);
+        intent.putExtra(ViewWeatherAlertActivity.ARGS_WEATHER_ALERT, weatherAlertId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent. FLAG_UPDATE_CURRENT );
+
         Notification notification  =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_warning_white_18dp)
+                        .setContentIntent(pendingIntent)
                         .setContentTitle("Weather Alert!")
                         .setContentText(title)
                         .build();

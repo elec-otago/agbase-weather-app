@@ -22,21 +22,22 @@ public class WeatherRequest extends SyncAdapterRequest<Weather[]> {
 
     private final String TAG = "WeatherRequest";
 
-    public static String ARGS_GUID = "WeatherRequest.ARGS_GUID";
-    public static String ARGS_START = "WeatherRequest.ARGS_START";
-    public static String ARGS_END = "WeatherRequest.ARGS_END";
-    public static String ARGS_LOWWINDSPEED = "WeatherRequest.ARGS_LOWWINDSPEED";
-    public static String ARGS_HIGHWINDSPEED = "WeatherRequest.ARGS_HIGHWINDSPEED";
-    public static String ARGS_WINDDIR = "WeatherRequest.ARGS_WINDDIR";
-    public static String ARGS_LOWTEMP = "WeatherRequest.ARGS_LOWTEMP";
-    public static String ARGS_HIGHTEMP = "WeatherRequest.ARGS_HIGHTEMP";
-    public static String ARGS_LOWHUM = "WeatherRequest.ARGS_LOWHUM";
-    public static String ARGS_HIGHHUM = "WeatherRequest.ARGS_HIGHHUM";
-    public static String ARGS_LOWAIRP = "WeatherRequest.ARGS_LOWAIRP";
-    public static String ARGS_HIGHAIRP = "WeatherRequest.ARGS_HIGHAIRP";
+    public static String ARGS_PRECIP_INTENSITY  = "WeatherRequest.ARGS_PRECIP_INTENSITY";
+    public static String ARGS_GUID              = "WeatherRequest.ARGS_GUID";
+    public static String ARGS_START             = "WeatherRequest.ARGS_START";
+    public static String ARGS_END               = "WeatherRequest.ARGS_END";
+    public static String ARGS_LOWWINDSPEED      = "WeatherRequest.ARGS_LOWWINDSPEED";
+    public static String ARGS_HIGHWINDSPEED     = "WeatherRequest.ARGS_HIGHWINDSPEED";
+    public static String ARGS_WINDDIR           = "WeatherRequest.ARGS_WINDDIR";
+    public static String ARGS_LOWTEMP           = "WeatherRequest.ARGS_LOWTEMP";
+    public static String ARGS_HIGHTEMP          = "WeatherRequest.ARGS_HIGHTEMP";
+    public static String ARGS_LOWHUM            = "WeatherRequest.ARGS_LOWHUM";
+    public static String ARGS_HIGHHUM           = "WeatherRequest.ARGS_HIGHHUM";
+    public static String ARGS_LOWAIRP           = "WeatherRequest.ARGS_LOWAIRP";
+    public static String ARGS_HIGHAIRP          = "WeatherRequest.ARGS_HIGHAIRP";
     public static String ARGS_PRECIPITATIONTYPE = "WeatherRequest.ARGS_PRECIPITATIONTYPE";
-    public static String ARGS_LIMIT = "WeatherRequest.ARGS_LIMIT";
-    public static String ARGS_OFFSET = "WeatherRequest.ARGS_OFFSET";
+    public static String ARGS_LIMIT             = "WeatherRequest.ARGS_LIMIT";
+    public static String ARGS_OFFSET            = "WeatherRequest.ARGS_OFFSET";
 
 
     private Weather[] weathers;
@@ -59,6 +60,7 @@ public class WeatherRequest extends SyncAdapterRequest<Weather[]> {
         Double highHum = (Double)extras.getSerializable(ARGS_HIGHHUM);
         Double lowAir = (Double)extras.getSerializable(ARGS_LOWAIRP);
         Double highAir = (Double)extras.getSerializable(ARGS_HIGHAIRP);
+        Double precipIntens = (Double)extras.getSerializable(ARGS_PRECIP_INTENSITY);
 
         if(guid == null) {
             // return true if request cannot be completed
@@ -68,7 +70,7 @@ public class WeatherRequest extends SyncAdapterRequest<Weather[]> {
         try {
             Call req = AgBaseApi.getApi().getWeatherMeasurements(guid, start,
                     end, lowWindSpeed, highWindSpeed, windDir, lowTemp, highTemp, lowHum, highHum,
-                    lowAir, highAir, precipitationType, limit, offset);
+                    lowAir, highAir, precipitationType, precipIntens, limit, offset);
             Response<ApiWeather.GetManyResponse> res = req.execute();
 
             if(res.isSuccess()) {

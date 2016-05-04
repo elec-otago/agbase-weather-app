@@ -484,7 +484,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             return false;
         }
 
-        Double lowWindSpeed = null, highWindSpeed = null,
+        Double lowWindSpeed = null, highWindSpeed = null, precipitationIntensity = null,
                 lowTemperature = null, highTemperature = null, lowHumidity = null,
                 highHumidity = null, lowAirPressure = null, highAirPressure = null;
 
@@ -543,13 +543,13 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
         if(alert.getCheckRain()) {
             precipitationType = "liquid";
             if(alert.getCheckRainCondition() == WeatherAlert.CheckCondition.INTENSITY) {
-                double rainIntensity = alert.getRainIntensityValue();
+                precipitationIntensity = alert.getRainIntensityValue();
             }
         }
         if(alert.getCheckSnow()) {
             precipitationType = "solid";
             if(alert.getCheckSnowCondition() == WeatherAlert.CheckCondition.INTENSITY) {
-                double snowIntensity = alert.getSnowIntensityValue();
+                precipitationIntensity = alert.getSnowIntensityValue();
             }
         }
 
@@ -558,6 +558,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
         extras.putString(WeatherRequest.ARGS_PRECIPITATIONTYPE, precipitationType);
         extras.putString(WeatherRequest.ARGS_START, start);
         extras.putString(WeatherRequest.ARGS_END, end);
+        extras.putSerializable(WeatherRequest.ARGS_PRECIP_INTENSITY, precipitationIntensity);
         extras.putSerializable(WeatherRequest.ARGS_LOWWINDSPEED, lowWindSpeed);
         extras.putSerializable(WeatherRequest.ARGS_HIGHWINDSPEED, highWindSpeed);
         extras.putSerializable(WeatherRequest.ARGS_LOWTEMP, lowTemperature);
@@ -588,7 +589,6 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                     long timeDiff = (startDate.getTime() - lastAlertDate.getTime()) / 1000;
 
                     if(timeDiff >= activeAlert.getAlertEnd()) {
-                        sendWeatherAlertEnd(activeAlert);
                         db.deleteActiveAlert(activeAlert.getId());
                     }
 
