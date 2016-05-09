@@ -3,6 +3,7 @@ package nz.ac.elec.agbase.weather_app.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,11 +29,13 @@ public class AlertsDisplayFragment extends Fragment {
     private ListView alertsListView;
     private WeatherAlertArrayAdapter alertArrayAdapter;
     private List<WeatherAlert> alertList;
+    private FloatingActionButton newAlertBtn;
 
     private IAlertsDisplayFragment mCallback;
     public interface IAlertsDisplayFragment {
         void onWeatherAlertItemClick(WeatherAlert alert);
         void onWeatherAlertItemLongClick(WeatherAlert alert);
+        void onWeatherAlertNewAlertClick();
     }
 
     @Override
@@ -76,6 +79,14 @@ public class AlertsDisplayFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 mCallback.onWeatherAlertItemLongClick(alertList.get(position));
                 return true;
+            }
+        });
+
+        newAlertBtn = (FloatingActionButton)view.findViewById(R.id.display_alerts_fragment_new_fab);
+        newAlertBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onWeatherAlertNewAlertClick();
             }
         });
     }

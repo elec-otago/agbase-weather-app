@@ -181,6 +181,11 @@ public class ViewWeatherAlertsActivity extends WeatherAppActivity
     }
 
     @Override
+    public void onWeatherAlertNewAlertClick() {
+        StartActivityHandler.startCreateWeatherAlertActivity(this, mAccount, null);
+    }
+
+    @Override
     public void deleteAlert(WeatherAlert alert) {
         deleteAlert = alert;
 
