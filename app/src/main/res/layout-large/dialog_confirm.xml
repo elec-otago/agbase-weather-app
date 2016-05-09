@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/space_32dp"
+    android:layout_marginRight="@dimen/space_32dp">
+
+    <!-- name label -->
+    <TextView
+        android:id="@+id/dialog_confirm_dialog_header"
+        android:layout_marginLeft="@dimen/space_24dp"
+        android:layout_marginRight="@dimen/space_24dp"
+        android:layout_marginTop="@dimen/space_24dp"
+        android:layout_marginBottom="@dimen/space_20dp"
+        android:textSize="@dimen/abc_text_size_title_material"
+        android:textColor="@color/primary_text_default_material_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_dialog_body"
+        android:textSize="@dimen/abc_text_size_subhead_material"
+        android:layout_below="@id/dialog_confirm_dialog_header"
+        android:layout_marginLeft="@dimen/space_24dp"
+        android:layout_marginRight="@dimen/space_24dp"
+        android:layout_marginBottom="@dimen/space_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- ok button -->
+    <Button
+        android:id="@+id/dialog_confirm_input_ok_btn"
+        android:text="@string/btn_ok"
+        android:layout_marginTop="@dimen/space_8dp"
+        android:layout_marginRight="@dimen/space_8dp"
+        android:layout_marginBottom="@dimen/space_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btn_height"
+        android:textColor="@color/primary"
+        android:minWidth="@dimen/min_btn_width"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/dialog_confirm_dialog_body"/>
+    <!-- cancel button -->
+    <Button
+        android:id="@+id/dialog_confirm_input_cancel_btn"
+        android:text="@string/btn_cancel"
+        android:layout_marginTop="@dimen/space_8dp"
+        android:layout_marginRight="@dimen/space_8dp"
+        android:layout_marginBottom="@dimen/space_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btn_height"
+        android:textColor="@color/primary"
+        android:minWidth="@dimen/min_btn_width"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_toLeftOf="@id/dialog_confirm_input_ok_btn"
+        android:layout_below="@id/dialog_confirm_dialog_body"/>
+</RelativeLayout>

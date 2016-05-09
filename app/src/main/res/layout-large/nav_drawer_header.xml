@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="@color/primary_dark">
+    <TextView
+        android:text="Menu"
+        android:textSize="@dimen/abc_text_size_headline_material"
+        android:textColor="@color/icons"
+        android:layout_marginRight="@dimen/space_16dp"
+        android:layout_marginBottom="@dimen/space_8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
