@@ -13,15 +13,14 @@
             android:id="@+id/display_alert_weatherstation_label"
             android:text="@string/weather_station_label"
             android:textColor="@color/accent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/space_16dp"
+            android:layout_marginTop="@dimen/space_16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <!-- weather station -->
         <TextView
             android:id="@+id/display_alert_weatherstation_field"
-            android:text="Weather Station Name"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="@dimen/space_16dp"
             android:layout_below="@id/display_alert_weatherstation_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -30,8 +29,8 @@
             android:id="@+id/display_alert_description_label"
             android:text="@string/description_label"
             android:textColor="@color/accent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/space_16dp"
+            android:layout_marginTop="@dimen/space_16dp"
             android:layout_below="@id/display_alert_weatherstation_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -39,8 +38,8 @@
         <TextView
             android:id="@+id/display_alert_description_field"
             android:text="Some description of the weather alert."
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/space_16dp"
+            android:layout_marginRight="@dimen/space_16dp"
             android:layout_below="@id/display_alert_description_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -48,8 +47,8 @@
         <Button
             android:id="@+id/display_alert_edit_btn"
             android:text="@string/btn_edit"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/space_16dp"
+            android:layout_marginBottom="@dimen/space_16dp"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btn_height"
             android:textColor="@color/primary"
@@ -61,8 +60,9 @@
         <Button
             android:id="@+id/display_alert_delete_btn"
             android:text="@string/btn_delete"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/space_16dp"
+            android:layout_marginBottom="@dimen/space_16dp"
+            android:layout_marginRight="@dimen/space_8dp"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btn_height"
             android:textColor="@color/primary"
@@ -76,8 +76,8 @@
             android:id="@+id/display_alert_condition_label"
             android:text="@string/condition_label"
             android:textColor="@color/accent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/space_16dp"
+            android:layout_marginTop="@dimen/space_16dp"
             android:layout_below="@id/display_alert_description_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -85,8 +85,8 @@
         <TextView
             android:id="@+id/display_alert_condition_field"
             android:text="Temperature must be below 0\nIt must be raining"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/space_16dp"
+            android:layout_marginRight="@dimen/space_16dp"
             android:layout_below="@id/display_alert_condition_label"
             android:layout_above="@id/display_alert_edit_btn"
             android:layout_width="match_parent"
