@@ -20,6 +20,8 @@ import nz.ac.elec.agbase.weather_app.WeatherAppActivity;
 import nz.ac.elec.agbase.weather_app.AgBaseAccountWorker;
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.StartActivityHandler;
+import nz.ac.elec.agbase.weather_app.dialogs.ConfirmAlertDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.EditDeleteAlertDialog;
 import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
 import nz.ac.elec.agbase.weather_app.services.WeatherAlertService;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
@@ -31,11 +33,15 @@ import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
  * Created by tm on 28/04/16.
  */
 public class ViewWeatherAlertsActivity extends WeatherAppActivity
-            implements AlertsDisplayFragment.IAlertsDisplayFragment {
+            implements AlertsDisplayFragment.IAlertsDisplayFragment,
+            EditDeleteAlertDialog.IEditDeleteAlertDialog,
+            ConfirmAlertDialog.IConfirmAlertDialog {
 
     private final String TAG = "ViewAlertsActivity";
     private final String TOOLBAR_TITLE = "Weather Alerts";
     private final String HEADER_TITLE = "Alerts";
+    private final String Delete_WEATHER_ALERT_TITLE = "Delete Weather Alert";
+    private final String DELETE_WEATHER_ALERT_MSG = "Are you sure you want to delete ";
 
     private Toolbar toolbar;
 
@@ -44,6 +50,8 @@ public class ViewWeatherAlertsActivity extends WeatherAppActivity
     private DrawerLayout drawerLayout;
 
     private AlertsDisplayFragment alertsDisplay;
+
+    WeatherAlert deleteAlert;
 
     private Account mAccount;
 
@@ -164,5 +172,36 @@ public class ViewWeatherAlertsActivity extends WeatherAppActivity
     @Override
     public void onWeatherAlertItemClick(WeatherAlert alert) {
         StartActivityHandler.startViewWeatherAlertActivity(this, alert.getId());
+    }
+
+    @Override
+    public void onWeatherAlertItemLongClick(WeatherAlert alert) {
+        EditDeleteAlertDialog dialog = new EditDeleteAlertDialog(this, alert);
+        dialog.getDialog().show();
+    }
+
+    @Override
+    public void deleteAlert(WeatherAlert alert) {
+        deleteAlert = alert;
+
+        if(deleteAlert != null) {
+            ConfirmAlertDialog deleteDialog = new ConfirmAlertDialog(this, Delete_WEATHER_ALERT_TITLE,
+                    DELETE_WEATHER_ALERT_MSG + deleteAlert.getName() + "?");
+            deleteDialog.getDialog().show();
+        }
+    }
+
+    @Override
+    public void editAlert(WeatherAlert alert) {
+        StartActivityHandler.startEditWeatherAlertActivity(this, alert.getId());
+    }
+
+    @Override
+    public void confirmOk() {
+        if(deleteAlert != null) {
+            AlertDatabaseManager.getInstance().deleteWeatherAlert(deleteAlert.getId());
+            getContent();
+        }
+        deleteAlert = null;
     }
 }

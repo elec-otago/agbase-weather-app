@@ -10,7 +10,7 @@ import nz.ac.elec.agbase.weather_app.WeatherAppActivity;
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.StartActivityHandler;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.ConfirmAlertDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.ConfirmAlertDialog;
 import nz.ac.elec.agbase.weather_app.fragments.AlertDisplayFragment;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 

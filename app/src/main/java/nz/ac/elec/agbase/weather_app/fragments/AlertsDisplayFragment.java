@@ -32,6 +32,7 @@ public class AlertsDisplayFragment extends Fragment {
     private IAlertsDisplayFragment mCallback;
     public interface IAlertsDisplayFragment {
         void onWeatherAlertItemClick(WeatherAlert alert);
+        void onWeatherAlertItemLongClick(WeatherAlert alert);
     }
 
     @Override
@@ -67,6 +68,14 @@ public class AlertsDisplayFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 mCallback.onWeatherAlertItemClick(alertList.get(position));
+            }
+        });
+
+        alertsListView.setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mCallback.onWeatherAlertItemLongClick(alertList.get(position));
+                return true;
             }
         });
     }

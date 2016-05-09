@@ -29,21 +29,21 @@ import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.agbase_sync.WeatherSyncAdapter;
 import nz.ac.elec.agbase.weather_app.services.WeatherAlertService;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AirPressureConditionDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AirPressureValueDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AlertDescriptionDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.ConfirmAlertDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.HumidityConditionDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.HumidityValueDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.AlertNameDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.RainConditionDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.RainValueDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.SnowConditionDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.SnowValueDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.TempConditionDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.TempValueDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.WindSpeedConditionDialog;
-import nz.ac.elec.agbase.weather_app.create_alert_dialogs.WindSpeedValueDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.AirPressureConditionDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.AirPressureValueDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.AlertDescriptionDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.ConfirmAlertDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.HumidityConditionDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.HumidityValueDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.AlertNameDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.RainConditionDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.RainValueDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.SnowConditionDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.SnowValueDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.TempConditionDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.TempValueDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.WindSpeedConditionDialog;
+import nz.ac.elec.agbase.weather_app.dialogs.WindSpeedValueDialog;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 
 /**
@@ -78,7 +78,7 @@ public class CreateWeatherAlertActivity extends WeatherAppActivity implements Al
     private final String SNOW_VALUE_DIALOG_TITLE                = "Select Snow Value";
 
     private final String CREATE_CONDITION_MSG                   = "Created new Weather Alert";
-    private final String FAIL_NO_CONDITION_MSG                  = "Failed to create Weather Alert.  " +
+    public static String FAIL_NO_CONDITION_MSG                  = "Failed to create Weather Alert.  " +
                                                                 "A weather alert needs at least 1 trigger condition";
 
     private final String[] RB_ABOVE_BELOW                       = new String[] {"above", "below"};
