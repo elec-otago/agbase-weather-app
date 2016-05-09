@@ -23,17 +23,8 @@ public class AlertDatabase extends SQLiteOpenHelper{
         return mAlertDatabase;
     }
 
-    public static synchronized AlertDatabase getDatabase(Context context, String dbName) {
-        mAlertDatabase = new AlertDatabase(context, dbName);
-        return mAlertDatabase;
-    }
-
     private AlertDatabase(Context context) {
         super(context.getApplicationContext(), DB_NAME, null, DB_VERSION);
-    }
-
-    private AlertDatabase(Context context, String dbName) {
-        super(context.getApplicationContext(), dbName, null, DB_VERSION);
     }
 
     @Override

@@ -5,8 +5,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Display;
+import android.widget.Toast;
 
 import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabaseManager;
 import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
@@ -56,4 +59,6 @@ public class WeatherApp extends Application {
             stopService(intent);
         }
     }
+
+
 }

@@ -23,6 +23,7 @@
         <!-- weather report activity -->
         <activity
             android:name=".activities.WeatherReportActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/weather_alert_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -32,18 +33,22 @@
 
         <!-- view weather alerts activity -->
         <activity android:name=".activities.ViewWeatherAlertsActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/weather_alert_label"/>
 
         <!-- view weather alert activity -->
         <activity android:name=".activities.ViewWeatherAlertActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/weather_alert_label"/>
 
         <!-- edit weather alert activity -->
         <activity android:name=".activities.EditWeatherAlertActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/weather_alert_label"/>
 
         <!-- create weather alert activity -->
         <activity android:name=".activities.CreateWeatherAlertActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/weather_alert_activity"/>
 
         <!-- sync adapter -->

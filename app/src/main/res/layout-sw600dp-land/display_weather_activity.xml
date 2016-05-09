@@ -35,7 +35,7 @@
                 android:background="@color/primary_dark"
                 android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/large_activity_header_height">
+                android:layout_height="@dimen/activity_header_height">
                 <!-- Weather Station Spinner -->
                 <Spinner
                     android:id="@+id/display_weather_activity_weather_station_dropdown"

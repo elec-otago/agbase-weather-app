@@ -35,11 +35,6 @@ public class AlertDatabaseManager {
         }
     }
 
-    public static synchronized void initialize(Context context, String dbName) {
-        instance = new AlertDatabaseManager();
-        mDatabaseHelper = AlertDatabase.getDatabase(context, dbName);
-    }
-
     public static synchronized AlertDatabaseManager getInstance() {
         return instance;
     }
