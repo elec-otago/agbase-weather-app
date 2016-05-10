@@ -7,8 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
-            android:layout_marginLeft="@dimen/space_16dp"
-            android:layout_marginRight="@dimen/space_16dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

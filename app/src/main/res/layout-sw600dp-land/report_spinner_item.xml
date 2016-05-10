@@ -4,16 +4,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinner_view"
     android:orientation="vertical"
-    android:background="@color/primary_dark"
+    android:background="@color/primary_light"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/report_spinner_item_textview"
-        android:textSize="@dimen/spinner_item_textSize"
-        android:textColor="@color/window_background"
-        android:layout_centerHorizontal="true"
-        android:layout_marginRight="@dimen/space_48dp"
+        android:textSize="@dimen/textsize_28sp"
+        android:textColor="@color/primary_dark"
+        android:layout_marginLeft="@dimen/space_8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"/>
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

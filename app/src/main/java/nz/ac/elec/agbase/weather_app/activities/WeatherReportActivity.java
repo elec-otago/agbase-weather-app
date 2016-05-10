@@ -86,11 +86,8 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
             StartActivityHandler.startLoginActivity(this);
             finish();
         } else {
-            initToolbar();
-            initNavigationView();
-            initDrawerLayout();
-            initWeatherDisplay();
-            initWeatherStationSpinner();
+            init();
+
 
             PreferenceHandler prefs = PreferenceHandler.getInstance();
             if (!prefs.getInitCompletePreference(mAccount)) {
@@ -119,7 +116,6 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
             setupWeatherStationList();
             setupWeatherRequests();
         }
-
     }
 
     @Override
@@ -133,6 +129,30 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
     }
 
     // region initialization
+
+    private void init() {
+        if(isDeviceTablet()) {
+            initTablet();
+        }
+        else {
+            initPhone();
+        }
+    }
+
+    private void initTablet() {
+        initToolbar();
+        initWeatherDisplay();
+        initWeatherStationSpinner();
+    }
+
+    private void initPhone() {
+        initToolbar();
+        initNavigationView();
+        initDrawerLayout();
+        initWeatherDisplay();
+        initWeatherStationSpinner();
+    }
+
     private void initBroadcastReceiver() {
 
         intentFilter = new IntentFilter();
@@ -149,17 +169,20 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
     }
 
     private void initNavigationView() {
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
-
+        if(findViewById(R.id.navigation_view) != null) {
+            navigationView = (NavigationView) findViewById(R.id.navigation_view);
+            navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
+        }
     }
 
     private void initDrawerLayout() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                toolbar, R.string.openDrawer, R.string.closeDrawer);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        actionBarDrawerToggle.syncState();
+        if (findViewById(R.id.drawer) != null) {
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                    toolbar, R.string.openDrawer, R.string.closeDrawer);
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+            actionBarDrawerToggle.syncState();
+        }
     }
 
     private void initWeatherDisplay() {

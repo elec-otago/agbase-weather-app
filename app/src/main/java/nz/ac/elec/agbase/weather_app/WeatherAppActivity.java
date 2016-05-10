@@ -16,7 +16,7 @@ public class WeatherAppActivity extends AppCompatActivity {
 
     private final String TAG = "Activity";
 
-    private void setDeviceOrientation() {
+    protected boolean isDeviceTablet() {
         DisplayMetrics metrics = new DisplayMetrics();
         float width = 0, density = 0;
 
@@ -24,11 +24,20 @@ public class WeatherAppActivity extends AppCompatActivity {
         density = getResources().getDisplayMetrics().density;
         width = metrics.widthPixels / density;
 
-        if(width < 600) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if(width >= 600) {
+            return true;
+        }
+        return false;
+    }
+
+    private void setDeviceOrientation() {
+
+        if(isDeviceTablet()) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 
