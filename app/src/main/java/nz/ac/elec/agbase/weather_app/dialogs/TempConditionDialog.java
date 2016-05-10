@@ -1,6 +1,8 @@
 package nz.ac.elec.agbase.weather_app.dialogs;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.widget.RadioButton;
 
 import nz.ac.elec.agbase.weather_app.dialogs.base_classes.RadioButtonDialog;
@@ -17,10 +19,16 @@ public class TempConditionDialog extends RadioButtonDialog {
         void getTempCondition(String condition);
     }
 
-    public TempConditionDialog(Activity activity, String dialogHeader,
+    public TempConditionDialog(Context context, String dialogHeader,
                                String[] radioLabels, String selectedLabel) {
-        super(activity, dialogHeader, radioLabels, selectedLabel);
-        mCallback = (ITempConditionDialog) activity;
+        super(context, dialogHeader, radioLabels, selectedLabel);
+        mCallback = (ITempConditionDialog) context;
+    }
+
+    public TempConditionDialog(Fragment fragment, String dialogHeader,
+                               String[] radioLabels, String selectedLabel) {
+        super(fragment.getContext(), dialogHeader, radioLabels, selectedLabel);
+        mCallback = (ITempConditionDialog)fragment;
     }
 
     @Override

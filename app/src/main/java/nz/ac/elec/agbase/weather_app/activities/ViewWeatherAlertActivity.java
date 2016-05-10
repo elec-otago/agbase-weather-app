@@ -129,4 +129,9 @@ public class ViewWeatherAlertActivity extends WeatherAppActivity
     public void confirmOk() {
         deleteWeatherAlert();
     }
+
+    @Override
+    public void cancelClick() {
+
+    }
 }

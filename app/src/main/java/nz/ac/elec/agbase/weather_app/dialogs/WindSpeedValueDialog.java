@@ -1,6 +1,8 @@
 package nz.ac.elec.agbase.weather_app.dialogs;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.text.InputType;
 
 import nz.ac.elec.agbase.weather_app.dialogs.base_classes.EditTextDialog;
@@ -15,10 +17,16 @@ public class WindSpeedValueDialog extends EditTextDialog {
         void getWindSpeedValue(double windSpeedValue);
     }
 
-    public WindSpeedValueDialog(Activity activity, String dialogHeader, String editTextValue) {
-        super(activity, dialogHeader, editTextValue);
+    public WindSpeedValueDialog(Context context, String dialogHeader, String editTextValue) {
+        super(context, dialogHeader, editTextValue);
         mTextInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
-        mCallback = (IWindSpeedValueDialog)activity;
+        mCallback = (IWindSpeedValueDialog)context;
+    }
+
+    public WindSpeedValueDialog(Fragment fragment, String dialogHeader, String editTextValue) {
+        super(fragment.getContext(), dialogHeader, editTextValue);
+        mTextInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
+        mCallback = (IWindSpeedValueDialog)fragment;
     }
 
     @Override

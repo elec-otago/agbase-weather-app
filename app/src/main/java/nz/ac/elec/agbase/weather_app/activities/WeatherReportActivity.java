@@ -131,26 +131,14 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
     // region initialization
 
     private void init() {
-        if(isDeviceTablet()) {
-            initTablet();
-        }
-        else {
-            initPhone();
-        }
-    }
-
-    private void initTablet() {
-        initToolbar();
-        initWeatherDisplay();
-        initWeatherStationSpinner();
-    }
-
-    private void initPhone() {
         initToolbar();
         initNavigationView();
-        initDrawerLayout();
         initWeatherDisplay();
         initWeatherStationSpinner();
+
+        if(!isDeviceTablet()) {
+            initDrawerLayout();
+        }
     }
 
     private void initBroadcastReceiver() {
@@ -282,7 +270,9 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-            drawerLayout.closeDrawers();
+            if(drawerLayout != null) {
+                drawerLayout.closeDrawers();
+            }
             switch (menuItem.getItemId()) {
                 case R.id.weather_report_item:
                     break;

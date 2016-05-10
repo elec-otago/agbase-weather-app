@@ -1,6 +1,8 @@
 package nz.ac.elec.agbase.weather_app.dialogs;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.widget.RadioButton;
 
 import nz.ac.elec.agbase.weather_app.dialogs.base_classes.RadioButtonDialog;
@@ -15,9 +17,14 @@ public class WindSpeedConditionDialog extends RadioButtonDialog {
         void getWindSpeedCondition(String condition);
     }
 
-    public WindSpeedConditionDialog(Activity activity, String dialogHeader, String[] radioLabels, String selectedLabel) {
-        super(activity, dialogHeader, radioLabels, selectedLabel);
-        mCallback = (IWindSpeedConditionDialog)activity;
+    public WindSpeedConditionDialog(Context context, String dialogHeader, String[] radioLabels, String selectedLabel) {
+        super(context, dialogHeader, radioLabels, selectedLabel);
+        mCallback = (IWindSpeedConditionDialog)context;
+    }
+
+    public WindSpeedConditionDialog(Fragment fragment, String dialogHeader, String[] radioLabels, String selectedLabel) {
+        super(fragment.getContext(), dialogHeader, radioLabels, selectedLabel);
+        mCallback = (IWindSpeedConditionDialog)fragment;
     }
 
     @Override

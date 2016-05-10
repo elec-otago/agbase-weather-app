@@ -1,6 +1,7 @@
 package nz.ac.elec.agbase.weather_app.dialogs.base_classes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -17,18 +18,18 @@ public class RadioButtonDialog extends WeatherAlertDialog {
     protected TextView mDialogHeader;
     protected RadioGroup rBtnGroup;
 
-    public RadioButtonDialog(Activity activity, String dialogHeader, String[] radioLabels, String selectedLabel) {
-        super(activity, R.layout.dialog_radio_button);
+    public RadioButtonDialog(Context context, String dialogHeader, String[] radioLabels, String selectedLabel) {
+        super(context, R.layout.dialog_radio_button);
         mDialogHeader.setText(dialogHeader);
-        initRadioBtns(activity, radioLabels, selectedLabel);
+        initRadioBtns(context, radioLabels, selectedLabel);
     }
 
-    private void initRadioBtns(Activity activity, String[] radioLabels, String selectedLabel) {
+    private void initRadioBtns(Context context, String[] radioLabels, String selectedLabel) {
 
         final RadioButton[] rBtns = new RadioButton[radioLabels.length];
 
         for(int i = 0; i < rBtns.length; i++) {
-            rBtns[i] = new RadioButton(activity);
+            rBtns[i] = new RadioButton(context);
             rBtnGroup.addView(rBtns[i]);
             rBtns[i].setText(radioLabels[i]);
 
@@ -39,7 +40,7 @@ public class RadioButtonDialog extends WeatherAlertDialog {
     }
 
     @Override
-    protected void init(Activity activity) {
+    protected void init(Context context) {
         mDialogHeader = (TextView)body.findViewById(R.id.dialog_radio_button_name_title);
         rBtnGroup = (RadioGroup)body.findViewById(R.id.dialog_radio_button_group);
 

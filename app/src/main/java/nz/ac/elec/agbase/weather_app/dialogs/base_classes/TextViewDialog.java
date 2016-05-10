@@ -2,6 +2,8 @@ package nz.ac.elec.agbase.weather_app.dialogs.base_classes;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,14 +23,14 @@ public class TextViewDialog extends WeatherAlertDialog  {
 
     private Button okBtn, cancelBtn;
 
-    public TextViewDialog(Activity activity, String dialogHeader, String dialogBody) {
-        super(activity, R.layout.dialog_confirm);
+    public TextViewDialog(Context context, String dialogHeader, String dialogBody) {
+        super(context, R.layout.dialog_confirm);
         mDialogHeader.setText(dialogHeader);
         mContentBody.setText(dialogBody);
     }
 
     @Override
-    protected void init(Activity activity) {
+    protected void init(Context context) {
         mDialogHeader = (TextView)body.findViewById(R.id.dialog_confirm_dialog_header);
         mContentBody = (TextView)body.findViewById(R.id.dialog_confirm_dialog_body);
 

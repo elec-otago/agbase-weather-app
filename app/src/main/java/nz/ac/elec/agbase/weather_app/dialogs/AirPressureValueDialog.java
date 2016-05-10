@@ -1,6 +1,8 @@
 package nz.ac.elec.agbase.weather_app.dialogs;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.text.InputType;
 
 import nz.ac.elec.agbase.weather_app.dialogs.base_classes.EditTextDialog;
@@ -15,9 +17,15 @@ public class AirPressureValueDialog extends EditTextDialog {
         void getAirPressureValue(double airPressureValue);
     }
 
-    public AirPressureValueDialog(Activity activity, String dialogHeader, String editTextValue) {
-        super(activity, dialogHeader, editTextValue);
-        mCallback = (IAirPressureValueDialog)activity;
+    public AirPressureValueDialog(Context context, String dialogHeader, String editTextValue) {
+        super(context, dialogHeader, editTextValue);
+        mCallback = (IAirPressureValueDialog)context;
+        mTextInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL| InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
+    }
+
+    public AirPressureValueDialog(Fragment fragment, String dialogHeader, String editTextValue) {
+        super(fragment.getContext(), dialogHeader, editTextValue);
+        mCallback = (IAirPressureValueDialog)fragment;
         mTextInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL| InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
     }
 

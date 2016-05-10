@@ -1,6 +1,7 @@
 package nz.ac.elec.agbase.weather_app.dialogs.base_classes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +25,14 @@ public class EditTextDialog extends WeatherAlertDialog {
 
     private Button okBtn, cancelBtn;
 
-    public EditTextDialog(Activity activity, String dialogHeader, String editTextValue) {
-        super(activity, R.layout.dialog_text_input);
+    public EditTextDialog(Context context, String dialogHeader, String editTextValue) {
+        super(context, R.layout.dialog_text_input);
         mTextInput.setText(editTextValue);
         mDialogHeader.setText(dialogHeader);
     }
 
     @Override
-    protected void init(Activity activity) {
+    protected void init(Context context) {
         mDialogHeader = (TextView)body.findViewById(R.id.dialog_text_input_name_title);
         mTextInput = (EditText)body.findViewById(R.id.dialog_text_input_name_input);
 

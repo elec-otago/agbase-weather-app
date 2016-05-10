@@ -1,6 +1,8 @@
 package nz.ac.elec.agbase.weather_app.dialogs;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import nz.ac.elec.agbase.weather_app.dialogs.base_classes.EditTextDialog;
 
@@ -16,10 +18,16 @@ public class AlertNameDialog extends EditTextDialog {
         void getName(String name);
     }
 
-    public AlertNameDialog(Activity activity, String dialogHeader, String editTextValue) {
-        super(activity, dialogHeader, editTextValue);
-        mCallback = (IAlertNameDialog)activity;
+    public AlertNameDialog(Context context, String dialogHeader, String editTextValue) {
+        super(context, dialogHeader, editTextValue);
+        mCallback = (IAlertNameDialog)context;
     }
+
+    public AlertNameDialog(Fragment fragment, String dialogHeader, String editTextValue) {
+        super(fragment.getContext(), dialogHeader, editTextValue);
+        mCallback = (IAlertNameDialog)fragment;
+    }
+
     @Override
     protected void onOkClick() {
         String name = mTextInput.getText().toString();

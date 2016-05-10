@@ -209,4 +209,9 @@ public class ViewWeatherAlertsActivity extends WeatherAppActivity
         }
         deleteAlert = null;
     }
+
+    @Override
+    public void cancelClick() {
+
+    }
 }

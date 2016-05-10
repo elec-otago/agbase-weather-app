@@ -1,6 +1,8 @@
 package nz.ac.elec.agbase.weather_app.dialogs;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.widget.RadioButton;
 
 import nz.ac.elec.agbase.weather_app.dialogs.base_classes.RadioButtonDialog;
@@ -21,9 +23,15 @@ public class EditDeleteAlertDialog extends RadioButtonDialog {
         void editAlert(WeatherAlert alert);
     }
 
-    public EditDeleteAlertDialog(Activity activity, WeatherAlert alert) {
-        super(activity, alert.getName(), RBTN_LABELS, RBTN_LABELS[0]);
-        mCallback = (IEditDeleteAlertDialog)activity;
+    public EditDeleteAlertDialog(Context context, WeatherAlert alert) {
+        super(context, alert.getName(), RBTN_LABELS, RBTN_LABELS[0]);
+        mCallback = (IEditDeleteAlertDialog)context;
+        mAlert = alert;
+    }
+
+    public EditDeleteAlertDialog(Fragment fragment, WeatherAlert alert) {
+        super(fragment.getContext(), alert.getName(), RBTN_LABELS, RBTN_LABELS[0]);
+        mCallback = (IEditDeleteAlertDialog)fragment;
         mAlert = alert;
     }
 

@@ -8,10 +8,9 @@
         android:text="Menu"
         android:textSize="@dimen/abc_text_size_headline_material"
         android:textColor="@color/icons"
-        android:layout_marginRight="@dimen/space_16dp"
+        android:layout_marginLeft="@dimen/space_24dp"
         android:layout_marginBottom="@dimen/space_8dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

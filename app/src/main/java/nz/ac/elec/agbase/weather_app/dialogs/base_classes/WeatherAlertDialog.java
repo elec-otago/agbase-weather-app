@@ -1,6 +1,8 @@
 package nz.ac.elec.agbase.weather_app.dialogs.base_classes;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,19 +24,19 @@ public abstract class WeatherAlertDialog {
     protected AlertDialog dialog;
     public AlertDialog getDialog() { return this.dialog; }
 
-    public WeatherAlertDialog(Activity activity, int layoutId) {
-        LayoutInflater inflater = activity.getLayoutInflater();
+    public WeatherAlertDialog(Context context, int layoutId) {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         body = inflater.inflate(layoutId, null);
-        init(activity);
-        buildDialog(activity);
+        init(context);
+        buildDialog(context);
     }
 
-    private void buildDialog(Activity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    private void buildDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(body);
         dialog = builder.create();
     }
 
     // initialization to be implemented by child classes
-    protected abstract void init(Activity activity);
+    protected abstract void init(Context context);
 }
