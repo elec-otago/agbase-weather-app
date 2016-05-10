@@ -72,9 +72,9 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
 
 
 
-    private final String[] RB_ABOVE_BELOW                       = new String[] {"above", "below"};
-    private final String[] RB_SNOW_CONDITION                    = new String[] {"intensity", "snowing"};
-    private final String[] RB_RAIN_CONDITION                    = new String[] {"intensity", "raining"};
+    public static String[] RB_ABOVE_BELOW                       = new String[] {"above", "below"};
+    public static String[] RB_SNOW_CONDITION                    = new String[] {"intensity", "snowing"};
+    public static String[] RB_RAIN_CONDITION                    = new String[] {"intensity", "raining"};
 
     // weather station spinner
     private Spinner weatherStationSpinner;
@@ -662,6 +662,107 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
         alert.setDeviceGuid(deviceGuid);
 
         return alert;
+    }
+
+    public void setWeatherStation(Sensor weatherStation) {
+        int position = weatherStationList.indexOf(weatherStation);
+        weatherStationSpinner.setSelection(position);
+    }
+
+    public void setName(String name) {
+        if(name != null) {
+            nameOutput.setText(name);
+        }
+    }
+
+    public void setDescription(String description) {
+        if(description != null) {
+            descriptionOutput.setText(description);
+        }
+    }
+
+    public void setTemperatureCheckbox(boolean checked) {
+        tempCb.setChecked(checked);
+    }
+
+    public void setTemperatureCondition(String condition) {
+        if(condition != null) {
+            tempConditionOutput.setText(condition);
+        }
+    }
+
+    public void setTemperatureValue(double value) {
+        tempValueOutput.setText(String.valueOf(value));
+    }
+
+    public void setHumidityCheckbox(boolean checked) {
+        humidityCb.setChecked(checked);
+    }
+
+    public void setHumidityCondition(String condition) {
+        if(condition != null) {
+            humidityConditionOutput.setText(condition);
+        }
+    }
+
+    public void setHumidityValue(double value) {
+        humidityValueOutput.setText(String.valueOf(value));
+    }
+
+    public void setWindSpeedCheckbox(boolean checked) {
+        windSpeedCb.setChecked(checked);
+    }
+
+    public void setWindSpeedCondition(String condition) {
+        if(condition != null) {
+            windSpeedConditionOutput.setText(condition);
+        }
+    }
+
+    public void setWindSpeedValue(double value) {
+        windSpeedValueOutput.setText(String.valueOf(value));
+    }
+
+    public void setAirPressureCheckbox(boolean checked) {
+        airPressureCb.setChecked(checked);
+    }
+
+    public void setAirPressureCondition(String condition){
+        if(condition != null) {
+            airPressureConditionOutput.setText(condition);
+        }
+    }
+
+    public void setAirPressureValue(double value) {
+        airPressureValueOutput.setText(String.valueOf(value));
+    }
+
+    public void setRainCheckbox(boolean checked) {
+        rainCb.setChecked(checked);
+    }
+
+    public void setRainCondition(String condition) {
+        if(condition != null) {
+            rainConditionOutput.setText(condition);
+        }
+    }
+
+    public void setRainValue(double value) {
+        rainValueOutput.setText(String.valueOf(value));
+    }
+
+    public void setSnowCheckbox(boolean checked) {
+        snowCb.setChecked(checked);
+    }
+
+    public void setSnowCondition(String condition) {
+        if(condition != null) {
+            snowConditionOutput.setText(condition);
+        }
+    }
+
+    public void setSnowValue(double value) {
+        snowValueOutput.setText(String.valueOf(value));
     }
 
 
