@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/alert_spinner_item_textview"
         android:gravity="center_vertical"
-        android:textSize="@dimen/abc_text_size_subhead_material"
+        android:textSize="@dimen/textsize_24sp"
         android:paddingLeft="@dimen/space_8dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/alert_spinner_textview_height"/>
