@@ -76,9 +76,13 @@ public class ViewWeatherAlertsActivity extends WeatherAppActivity
         else {
             initToolbar();
             initNavigationView();
-            initDrawerLayout();
-            initHeader();
             initContentFragment();
+
+            if(!isDeviceTablet()) {
+
+                initHeader();
+                initDrawerLayout();
+            }
         }
     }
 
@@ -147,7 +151,9 @@ public class ViewWeatherAlertsActivity extends WeatherAppActivity
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-            drawerLayout.closeDrawers();
+            if(drawerLayout != null) {
+                drawerLayout.closeDrawers();
+            }
             switch(menuItem.getItemId()) {
                 case R.id.weather_report_item:
                     StartActivityHandler.startWeatherActivity(ViewWeatherAlertsActivity.this, mAccount);

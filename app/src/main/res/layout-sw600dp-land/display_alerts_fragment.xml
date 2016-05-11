@@ -15,6 +15,6 @@
         android:layout_gravity="bottom|end"
         android:layout_width="@dimen/space_56dp"
         android:layout_height="@dimen/space_56dp"
-        android:layout_margin="@dimen/space_16dp"
+        android:layout_margin="@dimen/space_24dp"
         android:src="@mipmap/ic_add_white_48dp"/>
 </FrameLayout>

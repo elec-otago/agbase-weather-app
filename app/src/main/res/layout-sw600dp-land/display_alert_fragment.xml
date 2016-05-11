@@ -1,54 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/window_background"
+    android:background="@color/primary_light"
     android:paddingTop="8dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!-- weather station label -->
-        <TextView
-            android:id="@+id/display_alert_weatherstation_label"
-            android:text="@string/weather_station_label"
-            android:textColor="@color/accent"
-            android:layout_marginLeft="@dimen/space_16dp"
-            android:layout_marginTop="@dimen/space_16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <!-- weather station -->
-        <TextView
-            android:id="@+id/display_alert_weatherstation_field"
-            android:layout_marginLeft="@dimen/space_16dp"
-            android:layout_below="@id/display_alert_weatherstation_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <!-- description label -->
-        <TextView
-            android:id="@+id/display_alert_description_label"
-            android:text="@string/description_label"
-            android:textColor="@color/accent"
-            android:layout_marginLeft="@dimen/space_16dp"
-            android:layout_marginTop="@dimen/space_16dp"
-            android:layout_below="@id/display_alert_weatherstation_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <!-- description -->
-        <TextView
-            android:id="@+id/display_alert_description_field"
-            android:text="Some description of the weather alert."
-            android:layout_marginLeft="@dimen/space_16dp"
-            android:layout_marginRight="@dimen/space_16dp"
-            android:layout_below="@id/display_alert_description_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
         <!-- edit button -->
         <Button
             android:id="@+id/display_alert_edit_btn"
             android:text="@string/btn_edit"
             android:layout_marginTop="@dimen/space_16dp"
-            android:layout_marginBottom="@dimen/space_16dp"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btn_height"
             android:textColor="@color/primary"
@@ -61,8 +25,8 @@
             android:id="@+id/display_alert_delete_btn"
             android:text="@string/btn_delete"
             android:layout_marginTop="@dimen/space_16dp"
-            android:layout_marginBottom="@dimen/space_16dp"
-            android:layout_marginRight="@dimen/space_8dp"
+            android:layout_marginLeft="@dimen/space_8dp"
+            android:layout_marginRight="@dimen/space_24dp"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btn_height"
             android:textColor="@color/primary"
@@ -71,26 +35,91 @@
             android:layout_toLeftOf="@id/display_alert_edit_btn"
             android:layout_alignParentBottom="true"/>
 
-        <!-- alert condition label -->
-        <TextView
-            android:id="@+id/display_alert_condition_label"
-            android:text="@string/condition_label"
-            android:textColor="@color/accent"
-            android:layout_marginLeft="@dimen/space_16dp"
-            android:layout_marginTop="@dimen/space_16dp"
-            android:layout_below="@id/display_alert_description_field"
+        <LinearLayout
+            android:layout_above="@+id/display_alert_edit_btn"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <!-- alert conditions -->
-        <TextView
-            android:id="@+id/display_alert_condition_field"
-            android:text="Temperature must be below 0\nIt must be raining"
-            android:layout_marginLeft="@dimen/space_16dp"
-            android:layout_marginRight="@dimen/space_16dp"
-            android:layout_below="@id/display_alert_condition_label"
-            android:layout_above="@id/display_alert_edit_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_16dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <!-- weather station label -->
+                    <TextView
+                        android:id="@+id/display_alert_weatherstation_label"
+                        android:text="@string/weather_station_label"
+                        android:textSize="@dimen/textsize_24sp"
+                        android:textColor="@color/accent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <!-- weather station -->
+                    <TextView
+                        android:id="@+id/display_alert_weatherstation_field"
+                        android:textSize="@dimen/textsize_32sp"
+                        android:textColor="@color/primary_dark"
+                        android:layout_below="@id/display_alert_weatherstation_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <!-- description label -->
+                    <TextView
+                        android:id="@+id/display_alert_description_label"
+                        android:text="@string/description_label"
+                        android:textSize="@dimen/textsize_24sp"
+                        android:textColor="@color/accent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <!-- description -->
+                    <TextView
+                        android:id="@+id/display_alert_description_field"
+                        android:textSize="@dimen/textsize_32sp"
+                        android:textColor="@color/primary_dark"
+                        android:layout_marginRight="@dimen/space_16dp"
+                        android:layout_below="@id/display_alert_description_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <!-- alert condition label -->
+                    <TextView
+                        android:id="@+id/display_alert_condition_label"
+                        android:text="@string/condition_label"
+                        android:textColor="@color/accent"
+                        android:textSize="@dimen/textsize_24sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <!-- alert conditions -->
+                    <TextView
+                        android:id="@+id/display_alert_condition_field"
+                        android:textSize="@dimen/textsize_32sp"
+                        android:textColor="@color/primary_dark"
+                        android:layout_marginRight="@dimen/space_16dp"
+                        android:layout_below="@id/display_alert_condition_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 </FrameLayout>

@@ -87,7 +87,6 @@
                             android:textSize="@dimen/textsize_48sp"
                             android:textColor="@color/primary_dark"
                             android:layout_below="@id/display_weather_fragment_wind_label"
-                            android:layout_marginLeft="@dimen/indent_margin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
@@ -111,7 +110,6 @@
                             android:textSize="@dimen/textsize_48sp"
                             android:textColor="@color/primary_dark"
                             android:layout_below="@id/display_weather_fragment_wind_direction_label"
-                            android:layout_marginLeft="@dimen/indent_margin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
@@ -140,7 +138,6 @@
                             android:textSize="@dimen/textsize_48sp"
                             android:textColor="@color/primary_dark"
                             android:layout_below="@id/display_weather_fragment_humidity_label"
-                            android:layout_marginLeft="@dimen/indent_margin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
@@ -163,7 +160,6 @@
                             android:textSize="@dimen/textsize_48sp"
                             android:textColor="@color/primary_dark"
                             android:layout_below="@id/display_weather_fragment_air_pressure_label"
-                            android:layout_marginLeft="@dimen/indent_margin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
