@@ -23,6 +23,7 @@ import nz.ac.elec.agbase.weather_app.dialogs.ConfirmAlertDialog;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 
 /**
+ * CreateWeatherAlertActivity.java
  * Created by tm on 23/03/16.
  */
 public class CreateWeatherAlertActivity extends WeatherAppActivity implements WeatherAlertFormFragment.IWeatherAlertFormFragment,
@@ -42,6 +43,21 @@ public class CreateWeatherAlertActivity extends WeatherAppActivity implements We
     private Toolbar toolbar;
     private WeatherAlertFormFragment mFragment;
     private WeatherAlert weatherAlertBuffer;
+
+    // region broadcast receiver
+    private IntentFilter intentFilter;
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+
+            if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
+                mFragment.updateWeatherStations();
+            }
+        }
+    };
+    // endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +94,7 @@ public class CreateWeatherAlertActivity extends WeatherAppActivity implements We
     // region initialization
     private void initToolbar() {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
+
         toolbar.setTitle(TOOLBAR_TITLE);
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         setSupportActionBar(toolbar);
@@ -93,55 +110,46 @@ public class CreateWeatherAlertActivity extends WeatherAppActivity implements We
     }
     // endregion
 
-
-    private void createWeatherAlert() {
-        // create weather alert
-
-        if (weatherAlertBuffer != null) {
-            AlertDatabaseManager db = AlertDatabaseManager.getInstance();
-
-            int alertTotal = db.getAlertCount();
-            db.createAlert(weatherAlertBuffer);
-
-            // start service if this is first weather alert request.
-            if (alertTotal < 1) {
-                startWeatherAlertService();
-            }
-            Toast.makeText(CreateWeatherAlertActivity.this, CREATE_CONDITION_MSG, Toast.LENGTH_SHORT).show();
-            weatherAlertBuffer = null;
-        }
-    }
-
     public void startWeatherAlertService() {
         Intent weatherServiceIntent = new Intent(this, WeatherAlertService.class);
         startService(weatherServiceIntent);
     }
 
-    // region broadcast receiver
-    private IntentFilter intentFilter;
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String action = intent.getAction();
-
-            if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
-                mFragment.updateWeatherStations();
-            }
-        }
-    };
-
+    /**
+     * Displays a dialog to confirm the users decision to create
+     * a new weather alert.
+     */
     private void displayConfirmDialog() {
 
         if(weatherAlertBuffer != null) {
-            AlertSummaryGenerator summaryGenerator = new AlertSummaryGenerator();
+            // get weather station to monitor for alerts
             Sensor sensor = AgBaseDatabaseManager.getInstance().readSensorWithGuid(weatherAlertBuffer.getDeviceGuid());
+
+            // create a summary of the alert
+            AlertSummaryGenerator summaryGenerator = new AlertSummaryGenerator();
             String weatherAlertSummary = sensor.name + "\n" + summaryGenerator.writeAlertSummary(weatherAlertBuffer);
+
+            // display dialog
             ConfirmAlertDialog dialog = new ConfirmAlertDialog(this, weatherAlertBuffer.getName(), weatherAlertSummary);
             dialog.getDialog().show();
         }
     }
 
+    private void saveWeatherAlert() {
+        if(weatherAlertBuffer != null) {
+
+            AlertDatabaseManager.getInstance().createAlert(weatherAlertBuffer);
+            weatherAlertBuffer = null;
+            startWeatherAlertService();
+            Toast.makeText(this, CREATE_CONDITION_MSG, Toast.LENGTH_SHORT);
+        }
+    }
+
+    // region listeners
+
+    /**
+     * This function is called when the fragment creates a weather alert.
+     */
     @Override
     public void getWeatherAlert(WeatherAlert weatherAlert) {
         weatherAlertBuffer = null;
@@ -155,20 +163,26 @@ public class CreateWeatherAlertActivity extends WeatherAppActivity implements We
         }
     }
 
+    /**
+     * This function is called when the used clicks the cancel button on the fragment
+     */
     @Override
     public void cancelBtnClicked() {
         finish();
     }
 
+
+    /**
+     * This function is called when a user confirms a new weather alert in the confirm dialog
+     */
     @Override
     public void confirmOk() {
-        if(weatherAlertBuffer != null) {
-            AlertDatabaseManager.getInstance().createAlert(weatherAlertBuffer);
-            weatherAlertBuffer = null;
-            Toast.makeText(this, CREATE_CONDITION_MSG, Toast.LENGTH_SHORT);
-        }
+        saveWeatherAlert();
     }
 
+    /**
+     * This function is called when a user clicks the cancel button in the confirm dialog
+     */
     @Override
     public void cancelClick() {
         weatherAlertBuffer = null;
