@@ -627,6 +627,7 @@
         <LinearLayout
             android:id="@+id/row_4"
             android:layout_below="@id/row_3"
+            android:paddingBottom="@dimen/space_16dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -870,7 +871,6 @@
             <Button
                 android:id="@+id/alert_form_submit_btn"
                 android:text="@string/btn_ok"
-                android:layout_marginTop="@dimen/space_16dp"
                 android:layout_marginBottom="@dimen/space_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_height"
@@ -883,7 +883,6 @@
             <Button
                 android:id="@+id/alert_form_cancel_btn"
                 android:text="@string/btn_cancel"
-                android:layout_marginTop="@dimen/space_16dp"
                 android:layout_marginBottom="@dimen/space_24dp"
                 android:layout_marginRight="@dimen/space_24dp"
                 android:layout_width="wrap_content"
