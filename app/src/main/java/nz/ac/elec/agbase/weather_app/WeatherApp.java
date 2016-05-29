@@ -25,6 +25,7 @@ public class WeatherApp extends Application {
 
     private final String TAG = "WeatherApp";
     private int activitiesOpen = 0;
+    //ApiCaller apiCaller
 
     @Override
     public void onCreate() {

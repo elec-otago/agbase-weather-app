@@ -88,7 +88,6 @@ public class WeatherReportActivity extends WeatherAppActivity implements Weather
         } else {
             init();
 
-
             PreferenceHandler prefs = PreferenceHandler.getInstance();
             if (!prefs.getInitCompletePreference(mAccount)) {
                 prefs.setPerformInitPreference(mAccount, true);

@@ -97,6 +97,9 @@ public class WeatherDisplayFragment extends Fragment {
         if(weather.windSpeedAvg != null) {
             windSpeedOutput.setText(String.valueOf(weather.windSpeedAvg) + "m/s");
         }
+        else {
+            windSpeedOutput.setText("0m/s");
+        }
 
         // display wind direction
         if(weather.windDirectionAvg != null) {

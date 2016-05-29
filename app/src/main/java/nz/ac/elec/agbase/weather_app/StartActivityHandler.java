@@ -24,7 +24,8 @@ public class StartActivityHandler {
     public static void startLoginActivity(Context context) {
         Bundle b = new Bundle();
         b.putBoolean(context.getString(R.string.ARGS_FROM_APP), true);
-        b.putString(LoginActivity.ARGS_ACTIVITY, WeatherReportActivity.class.getName());
+        //b.putString(LoginActivity.ARGS_PACKAGE, WeatherReportActivity.class.getName());
+        b.putString(LoginActivity.ARGS_PACKAGE, context.getPackageName());
         b.putString(LoginActivity.ARGS_ACCOUNT_WORKER, AgBaseAccountWorker.class.getName());
 
         AccountManager manager = AccountManager.get(context);

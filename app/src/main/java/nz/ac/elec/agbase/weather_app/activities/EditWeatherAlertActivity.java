@@ -23,6 +23,8 @@ import nz.ac.elec.agbase.weather_app.fragments.WeatherAlertFormFragment;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 
 /**
+ * EditWeatherActivity.java
+ *
  * Created by tm on 3/05/16.
  */
 public class EditWeatherAlertActivity extends WeatherAppActivity implements WeatherAlertFormFragment.IWeatherAlertFormFragment,
@@ -39,18 +41,28 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
             "A weather alert needs at least 1 trigger condition";
 
     private final String[] RB_ABOVE_BELOW                       = new String[] {"above", "below"};
-    private final String[] RB_SNOW_CONDITION                    = new String[] {"intensity", "snowing"};
-    private final String[] RB_RAIN_CONDITION                    = new String[] {"intensity", "raining"};
 
     public static String ARGS_WEATHER_ALERT                     = "nz.ac.elec.agbase.weather_app.activities.EditWeatherAlert.ARGS_WEATHER_ALERT";
     // endregion
 
     private Toolbar toolbar;
-
-
     private WeatherAlertFormFragment mFragment;
-
     private WeatherAlert mWeatherAlert;
+
+    // region broadcast receiver
+    private IntentFilter intentFilter;
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+
+            if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
+                mFragment.updateWeatherStations();
+            }
+        }
+    };
+    // endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +112,7 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         setSupportActionBar(toolbar);
     }
+
     private void initFragment() {
         mFragment= new WeatherAlertFormFragment();
 
@@ -108,9 +121,9 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
         transaction.commit();
         getSupportFragmentManager().executePendingTransactions();
     }
-
     // endregion
 
+    // region display alert in fragment code
     private void displayAlertDetails() {
         setAlertNameDisplay();
         setAlertDescriptionDisplay();
@@ -267,6 +280,7 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
             mFragment.setWeatherStation(sensor);
         }
     }
+    // endregion
 
     private void displayConfirmDialog() {
 
@@ -278,20 +292,17 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
 
     }
 
-    // region broadcast receiver
-    private IntentFilter intentFilter;
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
+    private void updateAlert() {
+        AlertDatabaseManager.getInstance().updateWeatherAlert(mWeatherAlert);
+        Toast.makeText(this, EDIT_CONDITION_MSG, Toast.LENGTH_SHORT);
+        finish();
+    }
 
-            String action = intent.getAction();
+    // region listeners
 
-            if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
-               mFragment.updateWeatherStations();
-            }
-        }
-    };
-
+    /**
+     * This function is called when the fragment creates a weather alert.
+     */
     @Override
     public void getWeatherAlert(WeatherAlert weatherAlert) {
         if(weatherAlert != null) {
@@ -305,17 +316,20 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
         }
     }
 
-    // endregion
-
+    /**
+     * This function is called when the used clicks the cancel button on the fragment
+     */
     @Override
     public void cancelBtnClicked() {
         finish();
     }
 
+    /**
+     * This function is called when a user confirms a new weather alert in the confirm dialog
+     */
     @Override
     public void confirmOk() {
-        AlertDatabaseManager.getInstance().updateWeatherAlert(mWeatherAlert);
-        finish();
+        updateAlert();
     }
 
     @Override
