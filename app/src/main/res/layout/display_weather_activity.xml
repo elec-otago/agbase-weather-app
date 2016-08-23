@@ -37,14 +37,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_header_height">
                 <!-- todo this should be a text view -->
-                <Spinner
-                    android:id="@+id/display_weather_activity_weather_station_dropdown"
+                <TextView
+                    android:id="@+id/weather_station_name_output"
+                    android:textColor="@android:color/primary_text_dark"
+                    android:textSize="32sp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginBottom="@dimen/space_8dp"
+                    android:layout_margin="@dimen/space_16dp"
                     android:background="@color/primary_dark"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/select_weatherstation_btn"

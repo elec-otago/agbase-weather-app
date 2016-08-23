@@ -58,9 +58,11 @@ public class WeatherReportActivity extends WeatherAppActivity
     private DrawerLayout drawerLayout;
 
     // weather station spinner
-    private Spinner weatherStationSpinner;
-    private ArrayAdapter weatherStationArrayAdapter;
+   // private Spinner weatherStationSpinner;
+   // private ArrayAdapter weatherStationArrayAdapter;
     private List<Sensor> weatherStationList;
+
+    private TextView weatherStationName;
 
     // weather now display
     private WeatherDisplayFragment weatherDisplay;
@@ -140,7 +142,6 @@ public class WeatherReportActivity extends WeatherAppActivity
         initToolbar();
         initNavigationView();
         initWeatherDisplay();
-        initWeatherStationSpinner();
         mSelectWeatherStationBtn = (FloatingActionButton) findViewById(R.id.select_weatherstation_btn);
         mSelectWeatherStationBtn.setOnClickListener(new FloatingActionButton.OnClickListener() {
             @Override
@@ -148,15 +149,17 @@ public class WeatherReportActivity extends WeatherAppActivity
                 displayWeatherStationDialog();
             }
         });
+        weatherStationList = new ArrayList<>();
+        setupWeatherStationList();
+        weatherStationName = (TextView) findViewById(R.id.weather_station_name_output);
         if (!isDeviceTablet()) {
             initDrawerLayout();
         }
     }
 
     private void displayWeatherStationDialog() {
-        Log.d(TAG, "num wstations " + weatherStationList.size());
         SelectWeatherStationDialog dialog = new SelectWeatherStationDialog(this,
-                "Select Ye WeatherStation", weatherStationList, this);
+                "WeatherStation", weatherStationList, this);
         dialog.getDialog().show();
     }
 
@@ -207,34 +210,6 @@ public class WeatherReportActivity extends WeatherAppActivity
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
     }
-
-    private void initWeatherStationSpinner() {
-        weatherStationSpinner = (Spinner) findViewById(R.id.display_weather_activity_weather_station_dropdown);
-        weatherStationList = new ArrayList<>();
-        weatherStationArrayAdapter = new ArrayAdapter(this, R.layout.report_spinner_item, R.id.report_spinner_item_textview, weatherStationList);
-        //weatherStationArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
-        weatherStationSpinner.setAdapter(weatherStationArrayAdapter);
-        weatherStationSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mSensor = weatherStationList.get(position);
-                if (getWeatherHandler == null) {
-                    getWeatherHandler = new Handler();
-                } else {
-                    // stop timer
-                    getWeatherHandler.removeCallbacks(getWeatherRunnable);
-                }
-                // start timer with immediate runnable execution
-                weatherDisplay.clear();
-                getWeatherHandler.post(getWeatherRunnable);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
     // endregion
 
     private void setupWeatherStationList() {
@@ -251,12 +226,12 @@ public class WeatherReportActivity extends WeatherAppActivity
             List<Sensor> sensors = db.readSensorsWithType(sensorType.id);
             weatherStationList.addAll(sensors);
         }
-        weatherStationArrayAdapter.notifyDataSetChanged();
     }
 
     private void setupWeatherRequests() {
-        if (weatherStationSpinner.getAdapter().getCount() > 0) {
-            mSensor = (Sensor) weatherStationSpinner.getItemAtPosition(0);
+        if (weatherStationList.size() > 0) {
+            mSensor = (Sensor) weatherStationList.get(0);
+            weatherStationName.setText(mSensor.name);
 
             if (getWeatherHandler == null) {
                 getWeatherHandler = new Handler();
@@ -340,15 +315,8 @@ public class WeatherReportActivity extends WeatherAppActivity
                 weatherDisplay.displayWeatherMeasurement(weather);
             }
             else if(WeatherSyncAdapter.STATION_UPDATE.equals(action)) {
-                // get the selected weather station
-                Sensor selectedItem = (Sensor)weatherStationSpinner.getSelectedItem();
                 // update weather station list
                 setupWeatherStationList();
-                // restore the selected item if possible
-                int selectedItemIndex = weatherStationList.indexOf(selectedItem);
-                if(selectedItemIndex != -1) {
-                    weatherStationSpinner.setSelection(selectedItemIndex);
-                }
             }
         }
     };
@@ -368,7 +336,18 @@ public class WeatherReportActivity extends WeatherAppActivity
 
     @Override
     public void getWeatherStation(Sensor weatherStation) {
-        Log.d(TAG, "dialog returned " + weatherStation.name);
+
+        mSensor = weatherStation;
+        weatherStationName.setText(mSensor.name);
+        if (getWeatherHandler == null) {
+            getWeatherHandler = new Handler();
+        } else {
+            // stop timer
+            getWeatherHandler.removeCallbacks(getWeatherRunnable);
+        }
+        // start timer with immediate runnable execution
+        weatherDisplay.clear();
+        getWeatherHandler.post(getWeatherRunnable);
     }
     // endregion
 }
