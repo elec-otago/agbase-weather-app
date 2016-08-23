@@ -1,7 +1,7 @@
 package nz.ac.elec.agbase.weather_app;
 
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,22 +36,22 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate
-                (R.layout.weather_station_listview_item, parent, false); // todo row layout (currently a placeholder)
-        return null;
+                (R.layout.weather_station_listview_item, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.d("SensorAdapter", "bind called for " + position);
         Sensor sensor = mSensorList.get(position);
         holder.name.setText(sensor.name);
         holder.itemId = sensor.id;
         holder.bind(mSensorList.get(position), mListener);
-
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mSensorList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

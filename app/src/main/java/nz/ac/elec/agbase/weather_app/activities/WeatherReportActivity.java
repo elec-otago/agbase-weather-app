@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,6 +37,7 @@ import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.StartActivityHandler;
 import nz.ac.elec.agbase.weather_app.agbase_sync.SyncAdapterHandler;
 import nz.ac.elec.agbase.weather_app.agbase_sync.WeatherSyncAdapter;
+import nz.ac.elec.agbase.weather_app.dialogs.SelectWeatherStationDialog;
 import nz.ac.elec.agbase.weather_app.fragments.WeatherDisplayFragment;
 import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
 
@@ -43,7 +45,7 @@ import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
  * Created by tm on 18/04/16.
  */
 public class WeatherReportActivity extends WeatherAppActivity
-        implements WeatherDisplayFragment.OnFragmentInteractionListener {
+        implements WeatherDisplayFragment.OnFragmentInteractionListener, SelectWeatherStationDialog.ISelectWeatherStationDialog {
 
     private final String TAG = "WeatherReportActivity";
     private final String TOOLBAR_TITLE = "Weather";
@@ -62,6 +64,9 @@ public class WeatherReportActivity extends WeatherAppActivity
 
     // weather now display
     private WeatherDisplayFragment weatherDisplay;
+
+    // select weather station FAB
+    private FloatingActionButton mSelectWeatherStationBtn;
 
     private Sensor mSensor;
 
@@ -136,10 +141,23 @@ public class WeatherReportActivity extends WeatherAppActivity
         initNavigationView();
         initWeatherDisplay();
         initWeatherStationSpinner();
-
-        if(!isDeviceTablet()) {
+        mSelectWeatherStationBtn = (FloatingActionButton) findViewById(R.id.select_weatherstation_btn);
+        mSelectWeatherStationBtn.setOnClickListener(new FloatingActionButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayWeatherStationDialog();
+            }
+        });
+        if (!isDeviceTablet()) {
             initDrawerLayout();
         }
+    }
+
+    private void displayWeatherStationDialog() {
+        Log.d(TAG, "num wstations " + weatherStationList.size());
+        SelectWeatherStationDialog dialog = new SelectWeatherStationDialog(this,
+                "Select Ye WeatherStation", weatherStationList, this);
+        dialog.getDialog().show();
     }
 
     private void initBroadcastReceiver() {
@@ -347,5 +365,10 @@ public class WeatherReportActivity extends WeatherAppActivity
             getWeatherHandler.postDelayed(this, (60 * 1000));
         }
     };
+
+    @Override
+    public void getWeatherStation(Sensor weatherStation) {
+        Log.d(TAG, "dialog returned " + weatherStation.name);
+    }
     // endregion
 }

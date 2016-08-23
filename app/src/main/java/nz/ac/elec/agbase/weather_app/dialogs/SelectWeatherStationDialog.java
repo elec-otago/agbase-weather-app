@@ -23,7 +23,8 @@ public class SelectWeatherStationDialog extends ListViewDialog implements Sensor
 
     @Override
     public void onItemClick(Sensor item) {
-        //todo: return and dismiss dialog
+        mCallback.getWeatherStation(item);
+        dialog.dismiss();
     }
 
     public interface ISelectWeatherStationDialog {
@@ -52,10 +53,5 @@ public class SelectWeatherStationDialog extends ListViewDialog implements Sensor
 
         final SensorAdapter adapter = new SensorAdapter(mWeatherStations, this);
         mListView.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onOkClick() {
-        //todo: return selected
     }
 }

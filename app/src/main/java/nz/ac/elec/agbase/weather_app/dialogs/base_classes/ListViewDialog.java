@@ -28,14 +28,6 @@ public class ListViewDialog extends WeatherAlertDialog {
         mDialogHeader = (TextView)body.findViewById(R.id.dialog_list_view_name_title);
         mListView = (RecyclerView)body.findViewById(R.id.dialog_list_view_list_output);
 
-        okBtn = (Button)body.findViewById(R.id.dialog_list_view_ok_btn);
-        okBtn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOkClick();
-            }
-        });
-
         cancelBtn = (Button)body.findViewById(R.id.dialog_list_view_cancel_btn);
         cancelBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -46,10 +38,6 @@ public class ListViewDialog extends WeatherAlertDialog {
     }
 
     protected void onCancelClick() {
-        dialog.dismiss();
-    }
-
-    protected void onOkClick() {
         dialog.dismiss();
     }
 }
