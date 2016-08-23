@@ -58,8 +58,6 @@ public class WeatherReportActivity extends WeatherAppActivity
     private DrawerLayout drawerLayout;
 
     // weather station spinner
-   // private Spinner weatherStationSpinner;
-   // private ArrayAdapter weatherStationArrayAdapter;
     private List<Sensor> weatherStationList;
 
     private TextView weatherStationName;
@@ -220,6 +218,7 @@ public class WeatherReportActivity extends WeatherAppActivity
         weatherStationList.clear();
         // add sensors
         SensorCategory weatherStation = db.readSensorCategoryWithName("Weather Station");
+        if(weatherStation == null) return; // setup needs to be performed
         List<SensorType> sensorTypes = db.readSensorTypesWithCategory(weatherStation.id);
 
         for (SensorType sensorType : sensorTypes) {

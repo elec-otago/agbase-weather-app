@@ -57,21 +57,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- Weather Station Spinner -->
-            <Spinner
-                android:id="@+id/display_weather_activity_weather_station_dropdown"
+            <!-- Weather Station name textview -->
+            <TextView
+                android:id="@+id/weather_station_name_output"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/textsize_28sp"
                 android:layout_marginTop="@dimen/space_8dp"
-                android:layout_marginLeft="@dimen/space_24dp"
+                android:layout_marginLeft="@dimen/space_32dp"
                 android:layout_below="@id/display_weather_activity_weather_station_label"
                 android:layout_width="@dimen/display_weather_activity_weather_station_dropdown_width"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/select_weatherstation_btn"
                 android:layout_height="56dp"
                 android:layout_width="56dp"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/ic_room_white_24dp"
                 android:layout_marginTop="40dp"
-                android:layout_marginRight="24dp"/>
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

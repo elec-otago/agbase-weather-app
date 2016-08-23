@@ -36,7 +36,7 @@
                 android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_header_height">
-                <!-- todo this should be a text view -->
+
                 <TextView
                     android:id="@+id/weather_station_name_output"
                     android:textColor="@android:color/primary_text_dark"
