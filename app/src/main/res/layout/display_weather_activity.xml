@@ -36,7 +36,7 @@
                 android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_header_height">
-                <!-- Weather Station Spinner -->
+                <!-- TODO replace with textview Weather Station Spinner -->
                 <Spinner
                     android:id="@+id/display_weather_activity_weather_station_dropdown"
                     android:layout_alignParentBottom="true"
@@ -46,6 +46,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/select_weatherstation_btn"
+                android:layout_height="56dp"
+                android:layout_width="56dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/weather_station_container"
+                android:layout_marginTop="-28dp"
+                android:layout_marginRight="16dp"/>
             <!-- Weather details fragment -->
             <FrameLayout
                 android:id="@+id/display_weather_activity_fragment_container"

@@ -65,7 +65,13 @@
                 android:layout_below="@id/display_weather_activity_weather_station_label"
                 android:layout_width="@dimen/display_weather_activity_weather_station_dropdown_width"
                 android:layout_height="wrap_content"/>
-
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/select_weatherstation_btn"
+                android:layout_height="56dp"
+                android:layout_width="56dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="24dp"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

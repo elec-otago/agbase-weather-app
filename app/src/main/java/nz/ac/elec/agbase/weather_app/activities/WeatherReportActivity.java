@@ -41,7 +41,8 @@ import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
 /**
  * Created by tm on 18/04/16.
  */
-public class WeatherReportActivity extends WeatherAppActivity implements WeatherDisplayFragment.OnFragmentInteractionListener {
+public class WeatherReportActivity extends WeatherAppActivity
+        implements WeatherDisplayFragment.OnFragmentInteractionListener {
 
     private final String TAG = "WeatherReportActivity";
     private final String TOOLBAR_TITLE = "Weather";
