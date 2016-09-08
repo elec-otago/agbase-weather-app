@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,12 +23,15 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import nz.ac.elec.agbase.android_agbase_api.AgBaseApi;
+import nz.ac.elec.agbase.android_agbase_api.agbase_models.Farm;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.Sensor;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorCategory;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorType;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.Weather;
 import nz.ac.elec.agbase.android_agbase_api.api_models.ApiAuth;
-import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabase;
+import nz.ac.elec.agbase.android_agbase_api.api_models.ApiFarmPermissions;
+import nz.ac.elec.agbase.android_agbase_api.api_models.ApiFarms;
+import nz.ac.elec.agbase.android_agbase_api.api_models.ApiSensors;
 import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabaseManager;
 import nz.ac.elec.agbase.android_agbase_login.AccountWorker;
 import nz.ac.elec.agbase.weather_app.R;
@@ -39,6 +43,8 @@ import nz.ac.elec.agbase.weather_app.alert_db.AlertDatabaseManager;
 import nz.ac.elec.agbase.weather_app.models.ActiveAlert;
 import nz.ac.elec.agbase.weather_app.models.WeatherAlert;
 import nz.ac.elec.agbase.weather_app.preferences.PreferenceHandler;
+import retrofit.Call;
+import retrofit.Response;
 
 /**
  * Created by tm on 18/04/16.
@@ -86,7 +92,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             // check that there all other syncs have completed
             else if(getPendingSyncs(accountManager, account) == 0) {
-                didComplete = initLocalDb( account);
+                didComplete = initLocalDb(account);
             }
         }
         // check if update sync
@@ -348,6 +354,8 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private boolean updateWeatherStationSensors() {
+        return true;
+        /* todo update this once get weather stations is updated
         AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
         String sensorTypes = "";    // query parameters
         // get weather station sensor category
@@ -385,7 +393,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             List<Sensor> newSensors = Arrays.asList(request.getRequestData());
             db.createSensors(newSensors);
 
-            //delete all weather station sensors and alerts that are in oldSensors, but not newSensors
+            //todo delete all weather station sensors and alerts that are in oldSensors, but not newSensors
             for(Sensor sensor : oldSensors) {
                 if(newSensors.indexOf(sensor) == -1) {
                     db.deleteSensor(sensor.id);
@@ -405,6 +413,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             return true;
         }
         return false;
+        */
     }
 
     private boolean getWeatherStationTypes() {
@@ -440,10 +449,11 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // get weather station sensor category
         SensorCategory weatherStationCategory = db.readSensorCategoryWithName("Weather Station");
-        if(weatherStationCategory == null) {
+        if (weatherStationCategory == null) {
             return false;
         }
 
+        // region delete this when v2 route is working
         // get sensor types that belong to weather station category
         List<SensorType> weatherStationTypes = db.readSensorTypesWithCategory(weatherStationCategory.id);
         if(weatherStationTypes == null) {
@@ -459,23 +469,80 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             sensorTypes = sensorTypes + String.valueOf(sensorType.id);
         }
+        try {
+            Call req = AgBaseApi.getApi().getSensors(sensorTypes);
+            Response<ApiSensors.GetManyResponse> res = req.execute();
+
+            if (res.isSuccess()) {
+                return db.createSensors(Arrays.asList(res.body().sensors));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // endregion
+
+        // todo this when production server's v2 sensor route is fixed
+        // get public weather stations
+        /*if (getPublicWeatherStations(weatherStationCategory.id)) {
+            try {
+                Call req = AgBaseApi.getApi().getFarms(null, null);
+                Response<ApiFarms.GetManyResponse> res = req.execute();
+
+                if (res.isSuccess()) {
+                    return getFarmWeatherStations(weatherStationCategory.id, res.body().farms);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+        return false;
+    }
+
+    private boolean getPublicWeatherStations(int categoryId) {
         Bundle extras = new Bundle();
-        extras.putString(SensorRequest.ARGS_TYPE, sensorTypes);
+        extras.putInt(SensorRequest.ARGS_CATEGORY, categoryId);
         SensorRequest request = new SensorRequest();
 
-        if(request.performRequest(extras)) {
+        if (request.performRequest(extras)) {
             List<Sensor> sensors = Arrays.asList(request.getRequestData());
+            AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
 
             return db.createSensors(sensors);
         }
         return false;
     }
 
+    private boolean getFarmWeatherStations(int categoryId, Farm[] farms) {
+
+        AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
+        // get farm sensors including sensorCategories
+        for (Farm farm : farms) {
+            try {
+                Call req = AgBaseApi.getApi().getFarmSensors(farm.id, "sensorCategories");
+                Response<ApiSensors.GetManyResponse> res = req.execute();
+
+                if (res.isSuccess()) {
+                    List<Sensor> sensors = Arrays.asList(res.body().sensors);
+                    db.createSensors(sensors);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+
     /**
      * Checks for a weather measurement that meets the conditions defined by
      * the weather alert with an id equal to the id parameter is found.
      */
     private boolean checkWeatherAlert(int weatherAlertId) {
+        return false; // todo stubbed out while fixing weather report
+        /*
         // get weather alert from database.
         AlertDatabaseManager db = AlertDatabaseManager.getInstance();
         WeatherAlert alert = db.readWeatherAlert(weatherAlertId);
@@ -554,19 +621,19 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         Bundle extras = new Bundle();
-        extras.putString(WeatherRequest.ARGS_GUID, guid);
+        extras.putString(WeatherRequest.ARGS_DEVICE, guid);
         extras.putString(WeatherRequest.ARGS_PRECIPITATIONTYPE, precipitationType);
-        extras.putString(WeatherRequest.ARGS_START, start);
-        extras.putString(WeatherRequest.ARGS_END, end);
+        extras.putString(WeatherRequest.ARGS_START_DATE, start);
+        extras.putString(WeatherRequest.ARGS_END_DATE, end);
         extras.putSerializable(WeatherRequest.ARGS_PRECIP_INTENSITY, precipitationIntensity);
-        extras.putSerializable(WeatherRequest.ARGS_LOWWINDSPEED, lowWindSpeed);
-        extras.putSerializable(WeatherRequest.ARGS_HIGHWINDSPEED, highWindSpeed);
-        extras.putSerializable(WeatherRequest.ARGS_LOWTEMP, lowTemperature);
-        extras.putSerializable(WeatherRequest.ARGS_HIGHTEMP, highTemperature);
-        extras.putSerializable(WeatherRequest.ARGS_LOWHUM, lowHumidity);
-        extras.putSerializable(WeatherRequest.ARGS_HIGHHUM, highHumidity);
-        extras.putSerializable(WeatherRequest.ARGS_LOWAIRP, lowAirPressure);
-        extras.putSerializable(WeatherRequest.ARGS_HIGHAIRP, highAirPressure);
+        extras.putSerializable(WeatherRequest.ARGS_LOW_WINDSPEED, lowWindSpeed);
+        extras.putSerializable(WeatherRequest.ARGS_HIGH_WINDSPEED, highWindSpeed);
+        extras.putSerializable(WeatherRequest.ARGS_LOW_TEMP, lowTemperature);
+        extras.putSerializable(WeatherRequest.ARGS_HIGH_TEMP, highTemperature);
+        extras.putSerializable(WeatherRequest.ARGS_LOW_HUMIDITY, lowHumidity);
+        extras.putSerializable(WeatherRequest.ARGS_HIGH_HUMIDITY, highHumidity);
+        extras.putSerializable(WeatherRequest.ARGS_LOW_AIRPRESSURE, lowAirPressure);
+        extras.putSerializable(WeatherRequest.ARGS_HIGH_AIRPRESSURE, highAirPressure);
         extras.putSerializable(WeatherRequest.ARGS_LIMIT, limit);
 
         WeatherRequest weatherRequest = new WeatherRequest();
@@ -597,6 +664,6 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             }
         }
-        return false;
+        return false;*/
     }
 }

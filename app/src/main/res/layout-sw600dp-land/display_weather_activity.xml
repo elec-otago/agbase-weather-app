@@ -40,7 +40,6 @@
             android:background="@color/primary_light"
             android:layout_height="match_parent">
 
-
             <!-- Weather details fragment -->
             <FrameLayout
                 android:id="@+id/display_weather_activity_fragment_container"

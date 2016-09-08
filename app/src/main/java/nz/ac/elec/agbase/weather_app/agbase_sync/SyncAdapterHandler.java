@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import nz.ac.elec.agbase.weather_app.R;
 import nz.ac.elec.agbase.weather_app.agbase_sync.snyc_adapter_requests.WeatherRequest;
@@ -58,7 +57,7 @@ public class SyncAdapterHandler {
         Bundle b = new Bundle();
 
         b.putBoolean(WeatherSyncAdapter.ARGS_GET_WEATHER, true);
-        b.putString(WeatherRequest.ARGS_GUID, guid);
+        b.putString(WeatherRequest.ARGS_DEVICE, guid);
         b.putSerializable(WeatherRequest.ARGS_LIMIT, 1);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);

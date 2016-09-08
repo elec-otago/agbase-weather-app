@@ -70,8 +70,8 @@ public class WeatherDisplayFragment extends Fragment {
 
     public void displayWeatherMeasurement(Weather weather) {
         // display temperature
-        if(weather.airTempAvg != null) {
-            String tempStr = String.valueOf((int) Math.round(weather.airTempAvg));
+        if(weather.temperature != null) {
+            String tempStr = String.valueOf((int) Math.round(weather.temperature));
             tempOutput.setText(tempStr + "\u00B0c");
         }
 
@@ -94,36 +94,32 @@ public class WeatherDisplayFragment extends Fragment {
         timeOutput.setText(timeStr);
 
         // display wind speed
-        if(weather.windSpeedAvg != null) {
-            windSpeedOutput.setText(String.valueOf(weather.windSpeedAvg) + "m/s");
+        if(weather.windSpeed != null) {
+            windSpeedOutput.setText(String.valueOf(weather.windSpeed) + "m/s");
         }
         else {
             windSpeedOutput.setText("0m/s");
         }
 
         // display wind direction
-        if(weather.windDirectionAvg != null) {
-            windDirOutput.setText(convertWindDirection(weather.windDirectionAvg));
+        if(weather.windDir != null) {
+            windDirOutput.setText(convertWindDirection(weather.windDir));
         }
 
         // display humidity
-        if(weather.relHumidityAvg != null) {
-            humidityOutput.setText(String.valueOf(weather.relHumidityAvg) + "%");
+        if(weather.humidity != null) {
+            humidityOutput.setText(String.valueOf(weather.humidity) + "%");
         }
 
         // display air pressure
-        if(weather.relAirPressureAvg != null) {
-            airPressureOutput.setText(String.valueOf(weather.relAirPressureAvg) + "hPa");
+        if(weather.barometricPressure != null) {
+            airPressureOutput.setText(String.valueOf(weather.barometricPressure) + "hPa");
         }
 
         // display precipitation
         String precipitation = "";
-        if(weather.precipitationType != null) {
-            if (weather.precipitationType == 60) {
-                precipitation = "Rain";
-            } else if (weather.precipitationType == 70) {
-                precipitation = "Snow";
-            }
+        if(weather.rain1Minute != null && weather.rain1Minute > 0) {
+            precipitation = "Rain";
         }
         precipitationOutput.setText(precipitation);
     }
