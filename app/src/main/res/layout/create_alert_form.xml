@@ -643,7 +643,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
-                <View
+                <!--View
                     android:id="@+id/create_alert_form_rain_divider"
                     android:layout_below="@id/create_alert_form_rain_value_container"
                     style="?android:attr/listSeparatorTextViewStyle"
@@ -651,9 +651,9 @@
                     android:layout_marginTop="@dimen/space_8dp"
                     android:layout_marginBottom="@dimen/space_8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/space_1dp"/>
+                    android:layout_height="@dimen/space_1dp"/-->
                 <!-- snow -->
-                <TextView
+                <!--TextView
                     android:id="@+id/create_alert_form_snow_label"
                     android:text="@string/snow_title"
                     android:textColor="@color/accent"
@@ -662,9 +662,9 @@
                     android:layout_marginTop="@dimen/space_16dp"
                     android:layout_marginBottom="@dimen/space_16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content" /-->
                 <!-- use snow container -->
-                <RelativeLayout
+                <!--RelativeLayout
                     android:id="@+id/create_alert_form_snow_select_container"
                     android:layout_below="@id/create_alert_form_snow_label"
                     android:layout_width="match_parent"
@@ -696,9 +696,9 @@
                         android:layout_below="@id/create_alert_form_snow_select_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                </RelativeLayout>
+                </RelativeLayout-->
                 <!-- snow condition container -->
-                <RelativeLayout
+                <!--RelativeLayout
                     android:id="@+id/create_alert_form_snow_condition_container"
                     android:layout_below="@id/create_alert_form_snow_select_container"
                     android:layout_width="match_parent"
@@ -722,9 +722,9 @@
                         android:layout_below="@id/create_alert_form_snow_condition_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                </RelativeLayout>
+                </RelativeLayout-->
                 <!-- snow value container -->
-                <RelativeLayout
+                <!--RelativeLayout
                     android:id="@+id/create_alert_form_snow_value_container"
                     android:layout_below="@id/create_alert_form_snow_condition_container"
                     android:layout_width="match_parent"
@@ -748,7 +748,7 @@
                         android:layout_below="@id/create_alert_form_snow_value_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                </RelativeLayout>
+                </RelativeLayout-->
                 <!-- submit button -->
                 <Button
                     android:id="@+id/alert_form_submit_btn"
@@ -761,7 +761,8 @@
                     android:minWidth="@dimen/min_btn_width"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/create_alert_form_snow_value_container"/>
+                    android:layout_below="@id/create_alert_form_rain_value_container"/>
+                    <!--android:layout_below="@id/create_alert_form_snow_value_container"/-->
                 <!-- cancel button -->
                 <Button
                     android:id="@+id/alert_form_cancel_btn"
@@ -775,7 +776,8 @@
                     android:minWidth="@dimen/min_btn_width"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_toLeftOf="@id/alert_form_submit_btn"
-                    android:layout_below="@id/create_alert_form_snow_value_container"/>
+                    android:layout_below="@id/create_alert_form_rain_value_container"/>
+                <!--android:layout_below="@id/create_alert_form_snow_value_container"/-->
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>

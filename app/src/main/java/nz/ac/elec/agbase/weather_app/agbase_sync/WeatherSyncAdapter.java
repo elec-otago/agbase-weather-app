@@ -29,8 +29,6 @@ import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorCategory;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.SensorType;
 import nz.ac.elec.agbase.android_agbase_api.agbase_models.Weather;
 import nz.ac.elec.agbase.android_agbase_api.api_models.ApiAuth;
-import nz.ac.elec.agbase.android_agbase_api.api_models.ApiFarmPermissions;
-import nz.ac.elec.agbase.android_agbase_api.api_models.ApiFarms;
 import nz.ac.elec.agbase.android_agbase_api.api_models.ApiSensors;
 import nz.ac.elec.agbase.android_agbase_db.AgBaseDatabaseManager;
 import nz.ac.elec.agbase.android_agbase_login.AccountWorker;
@@ -354,8 +352,7 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private boolean updateWeatherStationSensors() {
-        return true;
-        /* todo update this once get weather stations is updated
+
         AgBaseDatabaseManager db = AgBaseDatabaseManager.getInstance();
         String sensorTypes = "";    // query parameters
         // get weather station sensor category
@@ -382,38 +379,38 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             sensorTypes = sensorTypes + String.valueOf(type.id);
         }
 
-        // get all weather station sensors from API as newSensors
-        Bundle extras = new Bundle();
-        extras.putString(SensorRequest.ARGS_TYPE, sensorTypes);
-        SensorRequest request = new SensorRequest();
+        try {
+            Call req = AgBaseApi.getApi().getSensors(sensorTypes);
+            Response<ApiSensors.GetManyResponse> res = req.execute();
 
-        if(request.performRequest(extras)) {
+            if (res.isSuccess()) {
 
-            // insert newSensors
-            List<Sensor> newSensors = Arrays.asList(request.getRequestData());
-            db.createSensors(newSensors);
+                // insert newSensors
+                List<Sensor> newSensors = Arrays.asList(res.body().sensors);
+                db.createSensors(newSensors);
 
-            //todo delete all weather station sensors and alerts that are in oldSensors, but not newSensors
-            for(Sensor sensor : oldSensors) {
-                if(newSensors.indexOf(sensor) == -1) {
-                    db.deleteSensor(sensor.id);
+                for(Sensor sensor : oldSensors) {
+                    if(newSensors.indexOf(sensor) == -1) {
+                        db.deleteSensor(sensor.id);
 
-                    // get weather alerts for the deleted sensor
-                    List<WeatherAlert> sensorAlerts = AlertDatabaseManager.getInstance().readWeatherAlertsWithSensor(sensor.guid);
+                        // get weather alerts for the deleted sensor
+                        List<WeatherAlert> sensorAlerts = AlertDatabaseManager.getInstance().readWeatherAlertsWithSensor(sensor.guid);
 
-                    // delete all weather alerts for the deleted sensor
-                    AlertDatabaseManager.getInstance().deleteWeatherAlertsWithSensor(sensor.guid);
+                        // delete all weather alerts for the deleted sensor
+                        AlertDatabaseManager.getInstance().deleteWeatherAlertsWithSensor(sensor.guid);
 
-                    // delete all active alerts for the deleted sensor
-                    for(WeatherAlert weatherAlert : sensorAlerts) {
-                        AlertDatabaseManager.getInstance().deleteActiveAlertWithWeatherAlert(weatherAlert.getId());
+                        // delete all active alerts for the deleted sensor
+                        for(WeatherAlert weatherAlert : sensorAlerts) {
+                            AlertDatabaseManager.getInstance().deleteActiveAlertWithWeatherAlert(weatherAlert.getId());
+                        }
                     }
                 }
+                return true;
             }
-            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return false;
-        */
     }
 
     private boolean getWeatherStationTypes() {
@@ -541,121 +538,89 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
      * the weather alert with an id equal to the id parameter is found.
      */
     private boolean checkWeatherAlert(int weatherAlertId) {
-        return false; // todo stubbed out while fixing weather report
-        /*
+
         // get weather alert from database.
         AlertDatabaseManager db = AlertDatabaseManager.getInstance();
         WeatherAlert alert = db.readWeatherAlert(weatherAlertId);
         // return false if weather alert is not found
-        if(alert == null) {
-            return false;
-        }
-
-        Double lowWindSpeed = null, highWindSpeed = null, precipitationIntensity = null,
-                lowTemperature = null, highTemperature = null, lowHumidity = null,
-                highHumidity = null, lowAirPressure = null, highAirPressure = null;
+        if (alert == null) return false;
 
         String guid = alert.getDeviceGuid();
 
         SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         timeStampFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date startDate = new Date();
-        startDate.setTime(startDate.getTime() - (5 * 60 * 1000)); // start is 5 minutes before now
+        startDate.setTime(startDate.getTime() - (5 * 60 * 1000)); // start is now - 5 minutes
 
         String start = timeStampFormat.format(startDate);
-        String precipitationType = null;
-        String end = null;
-        int limit = 1;
 
-        if(alert.getCheckTemp()) {
+        Bundle extras = new Bundle();
+        extras.putString(WeatherRequest.ARGS_DEVICE, guid);
+        extras.putString(WeatherRequest.ARGS_START_DATE, start);
+        extras.putSerializable(WeatherRequest.ARGS_LIMIT, 1);
+
+        if (alert.getCheckTemp()) {
             double tempValue = alert.getTempValue();
 
             if(alert.getCheckTempCondition() == WeatherAlert.CheckCondition.ABOVE) {
-                lowTemperature = tempValue;
-            }
-            else {
-                highTemperature = tempValue;
+                extras.putSerializable(WeatherRequest.ARGS_LOW_TEMP, tempValue);
+            } else {
+                extras.putSerializable(WeatherRequest.ARGS_HIGH_TEMP, tempValue);
             }
         }
-        if(alert.getCheckWindSpeed()) {
+        if (alert.getCheckWindSpeed()) {
             double windSpeedValue = alert.getWindSpeedValue();
 
             if (alert.getCheckWindSpeedCondition() == WeatherAlert.CheckCondition.ABOVE) {
-                lowWindSpeed = windSpeedValue;
-            }
-            else {
-                highWindSpeed = windSpeedValue;
+                extras.putSerializable(WeatherRequest.ARGS_LOW_WINDSPEED, windSpeedValue);
+            } else {
+                extras.putSerializable(WeatherRequest.ARGS_HIGH_WINDSPEED, windSpeedValue);
             }
         }
-        if(alert.getCheckHumidity()) {
+        if (alert.getCheckHumidity()) {
             double humidityValue = alert.getHumidityValue();
 
-            if(alert.getCheckHumidityCondition() == WeatherAlert.CheckCondition.ABOVE) {
-                lowHumidity = humidityValue;
-            }
-            else {
-                highHumidity = humidityValue;
+            if (alert.getCheckHumidityCondition() == WeatherAlert.CheckCondition.ABOVE) {
+                extras.putSerializable(WeatherRequest.ARGS_LOW_HUMIDITY, humidityValue);
+            } else {
+                extras.putSerializable(WeatherRequest.ARGS_HIGH_HUMIDITY, humidityValue);
             }
         }
         if(alert.getCheckAirPressure()) {
             double airPressureValue = alert.getAirPressureValue();
 
             if(alert.getCheckAirPressureCondition() == WeatherAlert.CheckCondition.ABOVE) {
-                lowAirPressure = airPressureValue;
+                extras.putSerializable(WeatherRequest.ARGS_LOW_AIRPRESSURE, airPressureValue);
             }
             else {
-                highAirPressure = airPressureValue;
+                extras.putSerializable(WeatherRequest.ARGS_HIGH_AIRPRESSURE, airPressureValue);
             }
         }
         if(alert.getCheckRain()) {
-            precipitationType = "liquid";
-            if(alert.getCheckRainCondition() == WeatherAlert.CheckCondition.INTENSITY) {
-                precipitationIntensity = alert.getRainIntensityValue();
+            if (alert.getCheckRainCondition() == WeatherAlert.CheckCondition.INTENSITY) {
+                double rainfallValue = alert.getRainIntensityValue();
+                extras.putSerializable(WeatherRequest.ARGS_LOW_RAIN1HOUR, rainfallValue);
+            } else if (alert.getCheckRainCondition() == WeatherAlert.CheckCondition.IS_TRUE) {
+                extras.putSerializable(WeatherRequest.ARGS_LOW_RAIN1HOUR, 0.0000001);
             }
         }
-        if(alert.getCheckSnow()) {
-            precipitationType = "solid";
-            if(alert.getCheckSnowCondition() == WeatherAlert.CheckCondition.INTENSITY) {
-                precipitationIntensity = alert.getSnowIntensityValue();
-            }
-        }
-
-        Bundle extras = new Bundle();
-        extras.putString(WeatherRequest.ARGS_DEVICE, guid);
-        extras.putString(WeatherRequest.ARGS_PRECIPITATIONTYPE, precipitationType);
-        extras.putString(WeatherRequest.ARGS_START_DATE, start);
-        extras.putString(WeatherRequest.ARGS_END_DATE, end);
-        extras.putSerializable(WeatherRequest.ARGS_PRECIP_INTENSITY, precipitationIntensity);
-        extras.putSerializable(WeatherRequest.ARGS_LOW_WINDSPEED, lowWindSpeed);
-        extras.putSerializable(WeatherRequest.ARGS_HIGH_WINDSPEED, highWindSpeed);
-        extras.putSerializable(WeatherRequest.ARGS_LOW_TEMP, lowTemperature);
-        extras.putSerializable(WeatherRequest.ARGS_HIGH_TEMP, highTemperature);
-        extras.putSerializable(WeatherRequest.ARGS_LOW_HUMIDITY, lowHumidity);
-        extras.putSerializable(WeatherRequest.ARGS_HIGH_HUMIDITY, highHumidity);
-        extras.putSerializable(WeatherRequest.ARGS_LOW_AIRPRESSURE, lowAirPressure);
-        extras.putSerializable(WeatherRequest.ARGS_HIGH_AIRPRESSURE, highAirPressure);
-        extras.putSerializable(WeatherRequest.ARGS_LIMIT, limit);
 
         WeatherRequest weatherRequest = new WeatherRequest();
         // perform request
-        if(weatherRequest.performRequest(extras)) {
-
+        if (weatherRequest.performRequest(extras)) {
             // return true if any measurements were returned.
-            if(weatherRequest.getRequestData().length > 0) {
-
+            if (weatherRequest.getRequestData().length > 0) {
                 return true;
             }
-
             // if weather alert is active, check if it enough time has passed to
             // allow it to be deleted.
             ActiveAlert activeAlert = db.readActiveAlertForWeatherAlert(weatherAlertId);
-            if(activeAlert != null) {
-
+            if (activeAlert != null) {
                 try {
                     Date lastAlertDate = timeStampFormat.parse(activeAlert.getAlertLast());
                     long timeDiff = (startDate.getTime() - lastAlertDate.getTime()) / 1000;
 
-                    if(timeDiff >= activeAlert.getAlertEnd()) {
+                    if (timeDiff >= activeAlert.getAlertEnd()) {
                         db.deleteActiveAlert(activeAlert.getId());
                     }
 
@@ -664,6 +629,6 @@ public class WeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             }
         }
-        return false;*/
+        return false;
     }
 }

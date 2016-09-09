@@ -132,7 +132,7 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
         setHumidityDisplay();
         setAirPressureDisplay();
         setRainDisplay();
-        setSnowDisplay();
+       // setSnowDisplay();
         setWeatherStation();
     }
 
@@ -152,7 +152,7 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
 
     private void setSnowDisplay() {
 
-        if(mWeatherAlert.getCheckSnow()) {
+        /*if(mWeatherAlert.getCheckSnow()) {
             WeatherAlert.CheckCondition snowCondition = mWeatherAlert.getCheckSnowCondition();
 
             if(snowCondition == WeatherAlert.CheckCondition.IS_TRUE) {
@@ -168,7 +168,7 @@ public class EditWeatherAlertActivity extends WeatherAppActivity implements Weat
         }
         else {
             mFragment.setSnowCheckbox(false);
-        }
+        }*/
     }
 
     private void setRainDisplay() {

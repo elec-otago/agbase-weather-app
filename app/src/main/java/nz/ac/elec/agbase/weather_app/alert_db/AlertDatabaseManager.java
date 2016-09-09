@@ -366,11 +366,11 @@ public class AlertDatabaseManager {
             values.put(AlertDatabase.AlertsTable.COL_RAIN_VALUE, weatherAlert.getRainIntensityValue());
         }
 
-        values.put(AlertDatabase.AlertsTable.COL_CHECK_SNOW, weatherAlert.getCheckSnow());
+        /*values.put(AlertDatabase.AlertsTable.COL_CHECK_SNOW, weatherAlert.getCheckSnow());
         if(weatherAlert.getCheckSnow()) {
             values.put(AlertDatabase.AlertsTable.COL_SNOW_CONDITION, weatherAlert.getCheckSnowCondition().ordinal());
             values.put(AlertDatabase.AlertsTable.COL_SNOW_VALUE, weatherAlert.getSnowIntensityValue());
-        }
+        }*/
 
         values.put(AlertDatabase.AlertsTable.COL_CHECK_HUMIDITY, weatherAlert.getCheckHumidity());
         if(weatherAlert.getCheckHumidity()) {
@@ -395,19 +395,19 @@ public class AlertDatabaseManager {
                 AlertDatabase.AlertsTable.COL_CHECK_TEMP,
                 AlertDatabase.AlertsTable.COL_CHECK_WIND_SPEED,
                 AlertDatabase.AlertsTable.COL_CHECK_RAIN,
-                AlertDatabase.AlertsTable.COL_CHECK_SNOW,
+                //AlertDatabase.AlertsTable.COL_CHECK_SNOW,
                 AlertDatabase.AlertsTable.COL_CHECK_HUMIDITY,
                 AlertDatabase.AlertsTable.COL_CHECK_AIR_PRESSURE,
                 AlertDatabase.AlertsTable.COL_TEMP_CONDITION,
                 AlertDatabase.AlertsTable.COL_RAIN_CONDITION,
-                AlertDatabase.AlertsTable.COL_SNOW_CONDITION,
+                //AlertDatabase.AlertsTable.COL_SNOW_CONDITION,
                 AlertDatabase.AlertsTable.COL_HUMIDITY_CONDITION,
                 AlertDatabase.AlertsTable.COL_WIND_SPEED_CONDITION,
                 AlertDatabase.AlertsTable.COL_AIR_PRESSURE_CONDITION,
                 AlertDatabase.AlertsTable.COL_TEMP_VALUE,
                 AlertDatabase.AlertsTable.COL_WIND_SPEED_VALUE,
                 AlertDatabase.AlertsTable.COL_RAIN_VALUE,
-                AlertDatabase.AlertsTable.COL_SNOW_VALUE,
+                //AlertDatabase.AlertsTable.COL_SNOW_VALUE,
                 AlertDatabase.AlertsTable.COL_HUMIDITY_VALUE,
                 AlertDatabase.AlertsTable.COL_AIR_PRESSURE_VALUE
         };
@@ -442,9 +442,9 @@ public class AlertDatabaseManager {
             else if(field == AlertDatabase.AlertsTable.COL_CHECK_RAIN) {
                 weatherAlert.setCheckRain(cursor.getInt(i) == 1);
             }
-            else if(field == AlertDatabase.AlertsTable.COL_CHECK_SNOW) {
+            /*else if(field == AlertDatabase.AlertsTable.COL_CHECK_SNOW) {
                 weatherAlert.setCheckSnow(cursor.getInt(i) == 1);
-            }
+            }*/
             else if(field == AlertDatabase.AlertsTable.COL_CHECK_HUMIDITY) {
                 weatherAlert.setCheckHumidity(cursor.getInt(i) == 1);
             }
@@ -461,10 +461,10 @@ public class AlertDatabaseManager {
                     WeatherAlert.CheckCondition condition = WeatherAlert.CheckCondition.values()[cursor.getInt(i)];
                     weatherAlert.setCheckRainCondition(condition);
                 }
-                else if (field == AlertDatabase.AlertsTable.COL_SNOW_CONDITION) {
+                /*else if (field == AlertDatabase.AlertsTable.COL_SNOW_CONDITION) {
                     WeatherAlert.CheckCondition condition = WeatherAlert.CheckCondition.values()[cursor.getInt(i)];
                     weatherAlert.setCheckSnowCondition(condition);
-                }
+                }*/
                 else if (field == AlertDatabase.AlertsTable.COL_WIND_SPEED_CONDITION) {
                     WeatherAlert.CheckCondition condition = WeatherAlert.CheckCondition.values()[cursor.getInt(i)];
                     weatherAlert.setCheckWindSpeedCondition(condition);
@@ -486,9 +486,9 @@ public class AlertDatabaseManager {
                 else if (field == AlertDatabase.AlertsTable.COL_RAIN_VALUE) {
                     weatherAlert.setRainIntensityValue(cursor.getDouble(i));
                 }
-                else if (field == AlertDatabase.AlertsTable.COL_SNOW_VALUE) {
+                /*else if (field == AlertDatabase.AlertsTable.COL_SNOW_VALUE) {
                     weatherAlert.setSnowIntensityValue(cursor.getDouble(i));
-                }
+                }*/
                 else if (field == AlertDatabase.AlertsTable.COL_HUMIDITY_VALUE) {
                     weatherAlert.setHumidityValue(cursor.getDouble(i));
                 }

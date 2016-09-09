@@ -51,7 +51,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
         HumidityConditionDialog.IHumidityConditionDialog, WindSpeedConditionDialog.IWindSpeedConditionDialog,
         WindSpeedValueDialog.IWindSpeedValueDialog, AirPressureConditionDialog.IAirPressureConditionDialog,
         AirPressureValueDialog.IAirPressureValueDialog, RainConditionDialog.IRainConditionDialog,
-        RainValueDialog.IRainValueDialog, SnowConditionDialog.ISnowConditionDialog, SnowValueDialog.ISnowValueDialog {
+        RainValueDialog.IRainValueDialog/*,SnowConditionDialog.ISnowConditionDialog, SnowValueDialog.ISnowValueDialog*/ {
 
     private final String TAG = "WeatherAlertFormFragment";
 
@@ -111,9 +111,9 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
     // endregion
 
     // region snow
-    private CheckBox snowCb;
+    /*private CheckBox snowCb;
     private RelativeLayout useSnowInput, snowConditionInput, snowValueInput;
-    private TextView snowConditionOutput, snowValueOutput;
+    private TextView snowConditionOutput, snowValueOutput;*/
     // endregion
 
     // region air pressure
@@ -159,7 +159,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
         initTempUI(view);
         initWindSpeedUI(view);
         initRainUI(view);
-        initSnowUI(view);
+        //initSnowUI(view);
         initHumidityUI(view);
         initAirPressureUI(view);
         initWeatherStationSpinner(view);
@@ -351,7 +351,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
 
     private void initSnowUI(View view) {
         // init condition and value outputs
-        snowConditionOutput = (TextView)view.findViewById(R.id.create_alert_form_snow_condition_desc);
+        /*snowConditionOutput = (TextView)view.findViewById(R.id.create_alert_form_snow_condition_desc);
         snowValueOutput = (TextView)view.findViewById(R.id.create_alert_form_snow_value_desc);
 
         // init use snow switch
@@ -378,7 +378,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
             public void onClick(View v) {
                 displaySnowValueDialog();
             }
-        });
+        });*/
     }
 
     private void initButtons(View view) {
@@ -505,7 +505,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
         dialog.getDialog().show();
     }
 
-    private void displaySnowConditionDialog() {
+    /*private void displaySnowConditionDialog() {
         String condition = snowConditionOutput.getText().toString();
         SnowConditionDialog dialog = new SnowConditionDialog(this,
                 SNOW_CONDITION_DIALOG_TITLE, RB_SNOW_CONDITION, condition);
@@ -516,7 +516,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
         String snowValue = snowValueOutput.getText().toString();
         SnowValueDialog dialog = new SnowValueDialog(this, SNOW_VALUE_DIALOG_TITLE, snowValue);
         dialog.getDialog().show();
-    }
+    }*/
 
     // endregion
 
@@ -635,7 +635,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
             }
         }
 
-        if(snowCb.isChecked()) {
+        /*if(snowCb.isChecked()) {
             alertConditionCount++;
             alert.setCheckSnow(true);
 
@@ -653,7 +653,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
             else {
                 alert.setCheckSnowCondition(WeatherAlert.CheckCondition.IS_TRUE);
             }
-        }
+        }*/
         if(alertConditionCount == 0) { return null; }
 
         alert.setName(nameOutput.getText().toString());
@@ -751,7 +751,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
         rainValueOutput.setText(String.valueOf(value));
     }
 
-    public void setSnowCheckbox(boolean checked) {
+    /*public void setSnowCheckbox(boolean checked) {
         snowCb.setChecked(checked);
     }
 
@@ -763,7 +763,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
 
     public void setSnowValue(double value) {
         snowValueOutput.setText(String.valueOf(value));
-    }
+    }*/
 
 
     // region interface functions
@@ -827,7 +827,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
         rainValueOutput.setText(String.valueOf(rainValue));
     }
 
-    @Override
+    /*@Override
     public void getSnowCondition(String condition) {
         snowConditionOutput.setText(condition);
     }
@@ -835,7 +835,7 @@ public class WeatherAlertFormFragment extends Fragment implements AlertNameDialo
     @Override
     public void getSnowValue(double snowValue) {
         snowValueOutput.setText(String.valueOf(snowValue));
-    }
+    }*/
 
     // endregion
 }

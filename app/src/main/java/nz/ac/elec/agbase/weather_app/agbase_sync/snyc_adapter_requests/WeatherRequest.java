@@ -1,6 +1,7 @@
 package nz.ac.elec.agbase.weather_app.agbase_sync.snyc_adapter_requests;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -74,6 +75,7 @@ public class WeatherRequest extends SyncAdapterRequest<Weather[]> {
             return true;
         }
         boolean ret = false;
+
         try {
             Call req = AgBaseApi.getApi().getWeatherMeasurements(device, start, end, lowWindSpeed,
                     highWindSpeed, lowWindGust, highWindGust, windDir, lowTemp, highTemp, lowHum,
@@ -83,7 +85,6 @@ public class WeatherRequest extends SyncAdapterRequest<Weather[]> {
 
             if(res.isSuccess()) {
                 weathers = res.body().measurements;
-
                 ret = true;
             }
         }

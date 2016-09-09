@@ -63,19 +63,16 @@ public class AlertDatabase extends SQLiteOpenHelper{
         public static final String COL_CHECK_TEMP              = "check_temperature";
         public static final String COL_CHECK_WIND_SPEED        = "check_wind_speed";
         public static final String COL_CHECK_RAIN              = "check_rain";
-        public static final String COL_CHECK_SNOW              = "check_snow";
         public static final String COL_CHECK_HUMIDITY          = "check_humidity";
         public static final String COL_CHECK_AIR_PRESSURE      = "check_air_pressure";
         public static final String COL_TEMP_CONDITION          = "temperature_condition";
         public static final String COL_RAIN_CONDITION          = "rain_condition";
         public static final String COL_WIND_SPEED_CONDITION    = "wind_speed_condition";
-        public static final String COL_SNOW_CONDITION          = "snow_condition";
         public static final String COL_HUMIDITY_CONDITION      = "humidity_condition";
         public static final String COL_AIR_PRESSURE_CONDITION  = "air_pressure_condition";
         public static final String COL_TEMP_VALUE              = "temperature_value";
         public static final String COL_WIND_SPEED_VALUE        = "wind_speed_value";
         public static final String COL_RAIN_VALUE              = "rain_value";
-        public static final String COL_SNOW_VALUE              = "snow_value";
         public static final String COL_HUMIDITY_VALUE          = "humidity_value";
         public static final String COL_AIR_PRESSURE_VALUE      = "air_pressure_value";
 
@@ -88,19 +85,16 @@ public class AlertDatabase extends SQLiteOpenHelper{
                     + COL_CHECK_TEMP + " INTEGER NOT NULL DEFAULT 0, "
                     + COL_CHECK_WIND_SPEED + " INTEGER NOT NULL DEFAULT 0, "
                     + COL_CHECK_RAIN + " INTEGER NOT NULL DEFAULT 0, "
-                    + COL_CHECK_SNOW + " INTEGER NOT NULL DEFAULT 0, "
                     + COL_CHECK_HUMIDITY + " INTEGER NOT NULL DEFAULT 0, "
                     + COL_CHECK_AIR_PRESSURE + " INTEGER NOT NULL DEFAULT 0, "
                     + COL_TEMP_CONDITION + " INTEGER, "
                     + COL_RAIN_CONDITION + " INTEGER, "
-                    + COL_SNOW_CONDITION + " INTEGER, "
                     + COL_HUMIDITY_CONDITION + " INTEGER, "
                     + COL_WIND_SPEED_CONDITION + " INTEGER, "
                     + COL_AIR_PRESSURE_CONDITION + " INTEGER, "
                     + COL_TEMP_VALUE + " REAL, "
                     + COL_WIND_SPEED_VALUE + " REAL, "
                     + COL_RAIN_VALUE + " REAL, "
-                    + COL_SNOW_VALUE + " REAL, "
                     + COL_HUMIDITY_VALUE + " REAL, "
                     + COL_AIR_PRESSURE_VALUE + " REAL)";
         }
