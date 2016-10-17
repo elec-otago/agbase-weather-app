@@ -53,8 +53,7 @@
         <!-- sync adapter -->
         <service
             android:name=".agbase_sync.SyncAdapterService"
-            android:exported="true"
-            android:process=":sync">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
@@ -78,7 +77,8 @@
             android:syncable="true" />
 
         <!-- Weather Alert service -->
-        <service android:name=".services.WeatherAlertService" android:process=":remote"/>
+        <service android:name=".services.WeatherAlertService" />
+            <!--ndroid:process=":remote"/-->
         <!-- Update service -->
         <service android:name=".services.UpdateService"/>
     </application>
