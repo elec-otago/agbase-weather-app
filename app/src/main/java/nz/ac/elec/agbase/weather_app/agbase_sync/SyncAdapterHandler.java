@@ -35,7 +35,6 @@ public class SyncAdapterHandler {
         b.putBoolean(context.getString(R.string.ARGS_DB_INIT), true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-
         ContentResolver.requestSync(account, mResolverAuthority, b);
         ContentResolver.setSyncAutomatically(account, mResolverAuthority, true);
     }

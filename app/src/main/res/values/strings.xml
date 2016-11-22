@@ -52,5 +52,6 @@
     <string name="btn_delete">Delete</string>
     <string name="condition_label">Conditions</string>
     <string name="menu_weather_alert_logout">Logout</string>
+    <string name="display_weather_fragment_wind_gust_label">Wind Gust</string>
 
 </resources>

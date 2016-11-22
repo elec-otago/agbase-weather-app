@@ -25,7 +25,7 @@ public class WeatherDisplayFragment extends Fragment {
     private final String TAG = "WeatherDisplayFragment";
 
     private TextView tempOutput, dateOutput, timeOutput, windSpeedOutput, windDirOutput, humidityOutput,
-        airPressureOutput, precipitationOutput;
+        airPressureOutput, precipitationOutput, windGustOutput;
 
     private OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener {
@@ -60,6 +60,7 @@ public class WeatherDisplayFragment extends Fragment {
 
         tempOutput.setText("");
         windDirOutput.setText("");
+        windGustOutput.setText("");
         windSpeedOutput.setText("");
         humidityOutput.setText("");
         airPressureOutput.setText("");
@@ -101,27 +102,40 @@ public class WeatherDisplayFragment extends Fragment {
             windSpeedOutput.setText("0m/s");
         }
 
+        // display wind gust
+        if(weather.windGust != null) {
+            windGustOutput.setText(String.valueOf(weather.windGust) + "m/s");
+        } else {
+            windGustOutput.setText("0m/s");
+        }
+
         // display wind direction
         if(weather.windDir != null) {
             windDirOutput.setText(convertWindDirection(weather.windDir));
+        } else {
+            windDirOutput.setText("");
         }
 
         // display humidity
         if(weather.humidity != null) {
             humidityOutput.setText(String.valueOf(weather.humidity) + "%");
+        } else {
+            humidityOutput.setText("");
         }
 
         // display air pressure
         if(weather.barometricPressure != null) {
             airPressureOutput.setText(String.valueOf(weather.barometricPressure) + "hPa");
+        } else {
+            airPressureOutput.setText("");
         }
 
         // display precipitation
-        String precipitation = "";
         if(weather.rain1Minute != null && weather.rain1Minute > 0) {
-            precipitation = "Rain";
+            precipitationOutput.setText("Rain");
+        } else {
+            precipitationOutput.setText("");
         }
-        precipitationOutput.setText(precipitation);
     }
 
     private void init(View view) {
@@ -136,6 +150,8 @@ public class WeatherDisplayFragment extends Fragment {
         windSpeedOutput = (TextView)view.findViewById(R.id.display_weather_fragment_wind_speed_output);
         // windDirOutput,
         windDirOutput = (TextView)view.findViewById(R.id.display_weather_fragment_wind_direction_output);
+        // windGustOutput,
+        windGustOutput = (TextView)view.findViewById(R.id.display_weather_fragment_wind_gust_output);
         // humidityOutput,
         humidityOutput = (TextView)view.findViewById(R.id.display_weather_fragment_humidity_output);
         //airPressureOutput,
@@ -195,6 +211,5 @@ public class WeatherDisplayFragment extends Fragment {
             return "NNW";
         }
         return null;
-
     }
 }

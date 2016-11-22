@@ -158,7 +158,7 @@ public class WeatherReportActivity extends WeatherAppActivity
 
     private void displayWeatherStationDialog() {
         SelectWeatherStationDialog dialog = new SelectWeatherStationDialog(this,
-                "WeatherStation", weatherStationList, this);
+                "Weather Station", weatherStationList, this);
         dialog.getDialog().show();
     }
 

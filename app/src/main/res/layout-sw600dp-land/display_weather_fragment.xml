@@ -90,6 +90,30 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp">
+
+                        <!-- wind gust label-->
+                        <TextView
+                            android:id="@+id/display_weather_fragment_wind_gust_label"
+                            android:text="@string/display_weather_fragment_wind_gust_label"
+                            android:textSize="@dimen/textsize_24sp"
+                            android:textColor="@color/accent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <!-- wind gust -->
+                        <TextView
+                            android:id="@+id/display_weather_fragment_wind_gust_output"
+                            android:textSize="@dimen/textsize_48sp"
+                            android:textColor="@color/primary_dark"
+                            android:layout_below="@id/display_weather_fragment_wind_gust_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_weight="1"
                         android:layout_width="match_parent"
