@@ -282,7 +282,6 @@ public class WeatherReportActivity extends WeatherAppActivity
                     StartActivityHandler.startLoginActivity(WeatherReportActivity.this);
                     finish();
                 default:
-                    Log.d(TAG, "not found");
                     break;
             }
             return true;

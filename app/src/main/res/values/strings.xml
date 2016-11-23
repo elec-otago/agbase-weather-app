@@ -54,4 +54,25 @@
     <string name="menu_weather_alert_logout">Logout</string>
     <string name="display_weather_fragment_wind_gust_label">Wind Gust</string>
 
+    <string name="wind_speed_suffix">m/s</string>
+    <string name="humidity_suffix">%</string>
+    <string name="air_pressure_suffix">hPa</string>
+    <string name="temperature_suffix">\u00B0c</string>
+
+    <string name="north_value_label">N</string>
+    <string name="north_north_east_value_label">NNE</string>
+    <string name="north_east_value_label">NE</string>
+    <string name="east_north_east_value_label">ENE</string>
+    <string name="east_value_label">E</string>
+    <string name="east_south_east_value_label">ESE</string>
+    <string name="south_east_value_label">SE</string>
+    <string name="south_south_east_value_label">SSE</string>
+    <string name="south_value_label">S</string>
+    <string name="south_south_west_value_label">SSW</string>
+    <string name="south_west_value_label">SW</string>
+    <string name="west_south_west_value_label">WSW</string>
+    <string name="west_value_label">W</string>
+    <string name="west_north_west_value_label">WNW</string>
+    <string name="north_west_value_label">NW</string>
+    <string name="north_north_west_value_label">NNW</string>
 </resources>

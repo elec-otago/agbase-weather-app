@@ -61,18 +61,20 @@
                 android:layout_below="@id/display_weather_fragment_temp_output"
                 android:layout_marginBottom="@dimen/space_24dp"
                 android:layout_marginTop="@dimen/space_8dp"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                android:weightSum="3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
                     <RelativeLayout
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
                         <!-- wind speed label-->
                         <TextView
                             android:id="@+id/display_weather_fragment_wind_label"
@@ -90,63 +92,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
-
                     <RelativeLayout
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp">
-
-                        <!-- wind gust label-->
-                        <TextView
-                            android:id="@+id/display_weather_fragment_wind_gust_label"
-                            android:text="@string/display_weather_fragment_wind_gust_label"
-                            android:textSize="@dimen/textsize_24sp"
-                            android:textColor="@color/accent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                        <!-- wind gust -->
-                        <TextView
-                            android:id="@+id/display_weather_fragment_wind_gust_output"
-                            android:textSize="@dimen/textsize_48sp"
-                            android:textColor="@color/primary_dark"
-                            android:layout_below="@id/display_weather_fragment_wind_gust_label"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp">
-                        <!-- wind direction label-->
-                        <TextView
-                            android:id="@+id/display_weather_fragment_wind_direction_label"
-                            android:text="@string/display_weather_fragment_wind_direction_label"
-                            android:textSize="@dimen/textsize_24sp"
-                            android:textColor="@color/accent"
-                            android:layout_marginTop="@dimen/space_4dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                        <!-- wind direction -->
-                        <TextView
-                            android:id="@+id/display_weather_fragment_wind_direction_output"
-                            android:textSize="@dimen/textsize_48sp"
-                            android:textColor="@color/primary_dark"
-                            android:layout_below="@id/display_weather_fragment_wind_direction_label"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </RelativeLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
                         <!-- humidity label-->
                         <TextView
                             android:id="@+id/display_weather_fragment_humidity_label"
@@ -165,10 +114,39 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
                     <RelativeLayout
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <!-- wind gust label-->
+                        <TextView
+                            android:id="@+id/display_weather_fragment_wind_gust_label"
+                            android:text="@string/display_weather_fragment_wind_gust_label"
+                            android:textSize="@dimen/textsize_24sp"
+                            android:textColor="@color/accent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <!-- wind gust -->
+                        <TextView
+                            android:id="@+id/display_weather_fragment_wind_gust_output"
+                            android:textSize="@dimen/textsize_48sp"
+                            android:textColor="@color/primary_dark"
+                            android:layout_below="@id/display_weather_fragment_wind_gust_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
                         <!-- air pressure label -->
                         <TextView
                             android:id="@+id/display_weather_fragment_air_pressure_label"
@@ -184,6 +162,36 @@
                             android:textSize="@dimen/textsize_48sp"
                             android:textColor="@color/primary_dark"
                             android:layout_below="@id/display_weather_fragment_air_pressure_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+                        <!-- wind direction label-->
+                        <TextView
+                            android:id="@+id/display_weather_fragment_wind_direction_label"
+                            android:text="@string/display_weather_fragment_wind_direction_label"
+                            android:textSize="@dimen/textsize_24sp"
+                            android:textColor="@color/accent"
+                            android:layout_marginTop="@dimen/space_4dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <!-- wind direction -->
+                        <TextView
+                            android:id="@+id/display_weather_fragment_wind_direction_output"
+                            android:textSize="@dimen/textsize_48sp"
+                            android:textColor="@color/primary_dark"
+                            android:layout_below="@id/display_weather_fragment_wind_direction_label"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
